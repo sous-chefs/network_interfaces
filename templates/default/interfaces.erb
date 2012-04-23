@@ -1,0 +1,43 @@
+<% if @auto -%>
+auto <%= @device %>
+<% end %>
+iface <%= @device %> inet <%= @type %>
+<% if @address -%>
+	address <%= @address %>
+<% end %>
+<% if @netmask -%>
+	netmask <%= @netmask %>
+<% end %>
+<% if @broadcast -%>
+	broadcast <%= @broadcast %>
+<% end %>
+<% if @gateway -%>
+	gateway <%= @gateway %>
+<% end %>
+<% if @bridge_ports -%>
+	bridge_ports<% @bridge_ports.each do |port| %> <%= port %><% end %>
+<% end %>
+<% if @metric -%>
+	metric <%= @metric %>
+<% end %>
+<% if @mtu -%>
+	mtu <%= @mtu %>
+<% end %>
+<% if @pre_up -%>
+	pre-up <%= @pre_up %>
+<% end %>
+<% if @pre_up -%>
+        up <%= @up %>
+<% end %>
+<% if down -%>
+        down <%= @down %>
+<% end %>
+<% if @post_down -%>
+        post-down <%= @post_down %>
+<% end %>
+<% if @custom %>
+<% @custom.each do |instruc, command| -%>
+        <%= instruc %> <%= command %>
+<% end %>
+<% end %>
+
