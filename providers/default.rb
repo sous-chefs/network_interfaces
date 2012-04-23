@@ -14,11 +14,18 @@ action :save do
     package "ifmetric"
   end
 
-  if new_resource.bridge_ports
+  if new_resource.bridge
     package "bridge-utils"
   end
 
-  template "/etc/network/interfaces.d/#{device}" do
+  execute "ifup" do
+    command "ifup #{new_resource.device}"
+    only_if "ifup -n #{new_resource.device}"
+    action :nothing
+  end
+
+  template "/etc/network/interfaces.d/#{new_resource.device}" do
+    cookbook "network_interfaces"
     source "interfaces.erb"
     owner "root"
     group "root"
@@ -32,7 +39,7 @@ action :save do
       :netmask => new_resource.mask,
       :bridge_ports => new_resource.bridge,
       :metric => new_resource.metric,
-      :mtu => new_ressource.mtu,
+      :mtu => new_resource.mtu,
       :pre_up => new_resource.pre_up,
       :up => new_resource.up,
       :down => new_resource.down,
@@ -41,21 +48,15 @@ action :save do
     )
     notifies :run, resources(:execute => "ifup")
   end
-
-  execute "ifup" do
-     command "ifup #{new_resource.device}"
-     only_if "ifup -n #{new_resource.device}"
-     action :nothing
-  end
 end
 
 action :remove do
-  file "/etc/network/interfaces.d/#{device}" do
-    action :delete
-  end
-
   execute "ifdown" do
     command "ifdown #{new_resource.device}"
     only_if "ifdown -n #{new_resource.device}"
+  end
+
+  file "/etc/network/interfaces.d/#{device}" do
+    action :delete
   end
 end
