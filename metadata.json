@@ -1,10 +1,10 @@
 {
   "name": "network_interfaces",
-  "description": "Installs/Configures network",
+  "description": "Installs/Configures network on Ubuntu and Debian",
   "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "maintainer": "YOUR_COMPANY_NAME",
-  "maintainer_email": "YOUR_EMAIL",
-  "license": "All rights reserved",
+  "maintainer": "Guilhem Lettron",
+  "maintainer_email": "guilhem.lettron@youscribe.com",
+  "license": "Apache 2.0",
   "platforms": {
     "ubuntu": ">= 11.10",
     "debian": ">= 7.0.0"
