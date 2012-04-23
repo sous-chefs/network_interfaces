@@ -40,8 +40,8 @@ insert_line_if_no_match("/etc/network/interfaces", "^source /etc/network/interfa
 
 
 directory "/etc/network/interfaces.d" do
-#  owner "root"
-#  group "root"
-#  mode "0644"
-#  action :create
+	owner "root"
+	group "root"
+	mode "0644"
+	action :create
 end
