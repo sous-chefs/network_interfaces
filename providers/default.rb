@@ -37,6 +37,7 @@ action :save do
       :address => Chef::Recipe::Network_interfaces.value(:target,new_resource.device, resource=new_resource, node),
       :network => Chef::Recipe::Network_interfaces.value(:network,new_resource.device, resource=new_resource, node),
       :netmask => Chef::Recipe::Network_interfaces.value(:mask,new_resource.device, resource=new_resource, node),
+      :gateway => Chef::Recipe::Network_interfaces.value(:gateway,new_resource.device, resource=new_resource, node),
       :bridge_ports => Chef::Recipe::Network_interfaces.value(:bridge,new_resource.device, resource=new_resource, node),
       :metric => Chef::Recipe::Network_interfaces.value(:metric,new_resource.device, resource=new_resource, node),
       :mtu => Chef::Recipe::Network_interfaces.value(:mtu,new_resource.device, resource=new_resource, node),
