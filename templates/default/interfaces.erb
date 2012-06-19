@@ -29,6 +29,12 @@ iface <%= @device %> inet <%= @type %>
 <% if @up -%>
         up <%= @up %>
 <% end %>
+<% if @post_up -%>
+        post-up <%= @post_up %>
+<% end %>
+<% if @pre_down -%>
+        pre-down <%= @pre_down %>
+<% end %>
 <% if @down -%>
         down <%= @down %>
 <% end %>
@@ -36,7 +42,7 @@ iface <%= @device %> inet <%= @type %>
         post-down <%= @post_down %>
 <% end %>
 <% if @custom %>
-<% @custom.each do |instruc, command| -%>
+<% @custom.sort_by{ |instruc, command| instruc }.each do |instruc, command| -%>
         <%= instruc %> <%= command %>
 <% end %>
 <% end %>
