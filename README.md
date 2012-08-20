@@ -16,6 +16,7 @@ Attributes
 Usage
 =====
 example for a bridge with pre-up and pre-down script :
+
     network_interfaces "br-test" do
       target "172.16.88.2"
       mask "255.255.255.0"
