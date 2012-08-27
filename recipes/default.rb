@@ -46,9 +46,16 @@ def insert_line_if_no_match(filepath, regex, newline)
   end
 end
 
+if node["network_interfaces"]["replace_orig"] 
+  cookbook_file "/etc/network/interfaces" do
+    source "interfaces"
+    mode 0644
+    owner "root"
+    group "root"
+  end  
+end
 
 insert_line_if_no_match("/etc/network/interfaces", "^source /etc/network/interfaces.d/*", 'source /etc/network/interfaces.d/*')
-
 
 directory "/etc/network/interfaces.d" do
 	owner "root"
