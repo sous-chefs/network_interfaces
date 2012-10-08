@@ -1,4 +1,7 @@
 action :save do
+  
+  node["network_interfaces"]["order"] << new_resource.device
+
   if new_resource.bridge and new_resource.bridge.class != Array
     new_resource.bridge = [ "none" ]
   end
@@ -19,8 +22,8 @@ action :save do
   end
 
   execute "if_up" do
-    command "ifdown #{new_resource.device} ; ifup #{new_resource.device}"
-    only_if "ifdown -n #{new_resource.device} ; ifup -n #{new_resource.device}"
+    command "ifdown #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device} ; ifup #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
+    only_if "ifdown -n #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device} ; ifup -n #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
     action :nothing
   end
 
@@ -49,18 +52,20 @@ action :save do
       :post_down => Chef::Recipe::Network_interfaces.value(:post_down,new_resource.device, resource=new_resource, node),
       :custom => Chef::Recipe::Network_interfaces.value(:custom,new_resource.device, resource=new_resource, node)
     )
-    notifies :run, resources(:execute => "if_up")
+    notifies :run, resources(:execute => "if_up"), :immediately
+    notifies :create, resources(:ruby_block => "Merge interfaces"), :delayed
   end
 end
 
 action :remove do
   execute "if_down" do
-    command "ifdown #{Chef::Recipe::Network_interfaces.value(:device,new_resource.device, resource=new_resource, node)}"
-    only_if "ifdown -n #{Chef::Recipe::Network_interfaces.value(:device,new_resource.device, resource=new_resource, node)}"
+    command "ifdown #{Chef::Recipe::Network_interfaces.value(:device,new_resource.device, resource=new_resource, node)} -i /etc/network/interfaces.d/#{Chef::Recipe::Network_interfaces.value(:device,new_resource.device, resource=new_resource, node)}"
+    only_if "ifdown -n #{Chef::Recipe::Network_interfaces.value(:device,new_resource.device, resource=new_resource, node)} -i /etc/network/interfaces.d/#{Chef::Recipe::Network_interfaces.value(:device,new_resource.device, resource=new_resource, node)}"
   end
 
   file "/etc/network/interfaces.d/#{device}" do
     action :delete
-    notifies :run, resources(:execute => "if_down") 
+    notifies :run, resources(:execute => "if_down"), :immediately
+    notifies :create, resources(:ruby_block => "Merge interfaces"), :delayed
   end
 end

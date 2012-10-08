@@ -1,9 +1,11 @@
 #
-# Cookbook Name:: network
+# Cookbook Name:: network_interfaces
 # Recipe:: default
 #
+# Author:: Stanislav Bogatyrev <realloc@realloc.spb.ru>
 # Author:: Guilhem Lettron <guilhem.lettron@youscribe.com>
 #
+# Copyright 2012, Clodo.ru
 # Copyright 2012, Societe Publica.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,44 +20,58 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-require 'fileutils'
 
-def insert_line_if_no_match(filepath, regex, newline)
-  @original_pathname = filepath
-  @file_edited = false
-  raise ArgumentError, "File doesn't exist" unless File.exist? @original_pathname
-  raise ArgumentError, "File is blank" unless (@contents = File.new(@original_pathname).readlines).length > 0
-
-  exp = Regexp.new(regex)
-  new_contents = []
-  @contents.each do |line|
-    if line.match(exp)
-      @file_edited = true
-    end
-  end
-  if ! @file_edited
-    @contents << newline
-    backup_pathname = @original_pathname + ".old"
-    FileUtils.cp(@original_pathname, backup_pathname, :preserve => true)
-    File.open(@original_pathname, "w") do |newfile|
-      @contents.each do |line|
-        newfile.puts(line)
-      end
-      newfile.flush
-    end
-  end
+class Chef::Recipe
+  include Mod_Network_interfaces
 end
 
-if node["network_interfaces"]["replace_orig"] 
+# Reset ifaces order on each run
+node["network_interfaces"]["order"]=[]
+
+ruby_block "Merge interfaces" do
+  block do
+    class  Chef::Resource::RubyBlock
+      include Mod_Network_interfaces
+    end
+    if debian_before_or_squeeze? || ubuntu_before_or_natty?
+      File.open("/etc/network/interfaces", "w") do |ifaces|
+        ( ["/etc/network/interfaces.tpl"] + node["network_interfaces"]["order"].map{|ifile| "/etc/network/interfaces.d/#{ifile}"} ).each do |ifile|
+          File.open(ifile) do |f|
+            f.each_line { |line| ifaces.write(line) }
+          end
+        end
+      end
+    end
+  end
+  action :nothing
+end
+
+if (debian_before_or_squeeze? || ubuntu_before_or_natty?)
+  cookbook_file "/etc/network/interfaces.tpl" do
+    source "interfaces"
+    mode 0644
+    owner "root"
+    group "root"
+  end
+elsif node["network_interfaces"]["replace_orig"]
   cookbook_file "/etc/network/interfaces" do
     source "interfaces"
     mode 0644
     owner "root"
     group "root"
-  end  
+  end
 end
 
-insert_line_if_no_match("/etc/network/interfaces", "^source /etc/network/interfaces.d/*", 'source /etc/network/interfaces.d/*')
+ruby_block "Fix interfaces include" do
+  block do
+    class  Chef::Resource::RubyBlock
+      include Mod_Network_interfaces
+    end
+    unless debian_before_or_squeeze? || ubuntu_before_or_natty?
+      insert_line_if_no_match("/etc/network/interfaces", "^source /etc/network/interfaces.d/*", 'source /etc/network/interfaces.d/*')
+    end
+  end
+end
 
 directory "/etc/network/interfaces.d" do
 	owner "root"
