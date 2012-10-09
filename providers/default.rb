@@ -6,12 +6,24 @@ action :save do
     new_resource.bridge = [ "none" ]
   end
 
-  # TODO: Load 8021q kernel module in a Chef-way
+  # TODO: Load kernel modules in a Chef-way
   if new_resource.vlan_dev || new_resource.device =~ /(eth|bond|wlan)[0-9]+\.[0-9]+/
     package "vlan"
 
     execute "modprobe 8021q kludge" do
       command "modprobe 8021q"
+    end
+  end
+
+  if new_resource.bond and new_resource.bond.class != Array
+    new_resource.bond = [ "none" ]
+  end
+
+  if new_resource.bond
+    package "ifenslave-2.6"
+
+    execute "modprobe bonding kludge" do
+      command "modprobe bonding"
     end
   end
 
@@ -53,6 +65,8 @@ action :save do
       :gateway => Chef::Recipe::Network_interfaces.value(:gateway,new_resource.device, resource=new_resource, node),
       :bridge_ports => Chef::Recipe::Network_interfaces.value(:bridge,new_resource.device, resource=new_resource, node),
       :vlan_dev => Chef::Recipe::Network_interfaces.value(:vlan_dev,new_resource.device, resource=new_resource, node),
+      :bond_slaves => Chef::Recipe::Network_interfaces.value(:bond,new_resource.device, resource=new_resource, node),
+      :bond_mode => Chef::Recipe::Network_interfaces.value(:bond_mode,new_resource.device, resource=new_resource, node),
       :metric => Chef::Recipe::Network_interfaces.value(:metric,new_resource.device, resource=new_resource, node),
       :mtu => Chef::Recipe::Network_interfaces.value(:mtu,new_resource.device, resource=new_resource, node),
       :pre_up => Chef::Recipe::Network_interfaces.value(:pre_up,new_resource.device, resource=new_resource, node),
