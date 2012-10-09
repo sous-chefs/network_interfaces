@@ -24,7 +24,7 @@ iface <%= @device %> inet <%= @type %>
 	bond-slaves<% @bond_slaves.each do |iface| %> <%= iface %><% end %>
 <% end %>
 <% if @bond_mode -%>
-	bonad-mode <%= @bond_mode %>
+	bond-mode <%= @bond_mode %>
 <% end %>
 <% if @metric -%>
 	metric <%= @metric %>
