@@ -7,6 +7,7 @@ actions :save, :remove
 
 attribute :device, :kind_of => String, :name_attribute => true
 attribute :bridge, :kind_of => [ TrueClass, FalseClass, Array ], :default => false
+attribute :vlan_dev, :kind_of => String, :default => nil
 attribute :onboot, :kind_of => [ TrueClass, FalseClass ], :default => true
 attribute :bootproto, :kind_of => String, :default => nil
 attribute :target, :kind_of => String, :default => nil

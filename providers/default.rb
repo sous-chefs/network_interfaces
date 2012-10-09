@@ -5,6 +5,16 @@ action :save do
   if new_resource.bridge and new_resource.bridge.class != Array
     new_resource.bridge = [ "none" ]
   end
+
+  # TODO: Load 8021q kernel module in a Chef-way
+  if new_resource.vlan_dev || new_resource.device =~ /(eth|bond|wlan)[0-9]+\.[0-9]+/
+    package "vlan"
+
+    execute "modprobe 8021q kludge" do
+      command "modprobe 8021q"
+    end
+  end
+
   if new_resource.bootproto == "dhcp"
     type = "dhcp"
   elsif ! new_resource.target
@@ -42,6 +52,7 @@ action :save do
       :netmask => Chef::Recipe::Network_interfaces.value(:mask,new_resource.device, resource=new_resource, node),
       :gateway => Chef::Recipe::Network_interfaces.value(:gateway,new_resource.device, resource=new_resource, node),
       :bridge_ports => Chef::Recipe::Network_interfaces.value(:bridge,new_resource.device, resource=new_resource, node),
+      :vlan_dev => Chef::Recipe::Network_interfaces.value(:vlan_dev,new_resource.device, resource=new_resource, node),
       :metric => Chef::Recipe::Network_interfaces.value(:metric,new_resource.device, resource=new_resource, node),
       :mtu => Chef::Recipe::Network_interfaces.value(:mtu,new_resource.device, resource=new_resource, node),
       :pre_up => Chef::Recipe::Network_interfaces.value(:pre_up,new_resource.device, resource=new_resource, node),
