@@ -14,8 +14,17 @@ iface <%= @device %> inet <%= @type %>
 <% if @gateway -%>
 	gateway <%= @gateway %>
 <% end %>
+<% if @vlan_dev -%>
+	vlan_raw_device <%= @vlan_dev %>
+<% end %>
 <% if @bridge_ports -%>
 	bridge_ports<% @bridge_ports.each do |port| %> <%= port %><% end %>
+<% end %>
+<% if @bond_slaves -%>
+	bond-slaves<% @bond_slaves.each do |iface| %> <%= iface %><% end %>
+<% end %>
+<% if @bond_mode -%>
+	bond-mode <%= @bond_mode %>
 <% end %>
 <% if @metric -%>
 	metric <%= @metric %>

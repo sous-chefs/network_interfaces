@@ -7,8 +7,8 @@ Requirements
 ============
 
 ifupdown-0.7~alpha3 or older :
-* debian > wheezy
-* Ubuntu >= 11.10 (oneiric)
+* debian >= squeeze
+* Ubuntu >= 11.04 (natty)
 
 Attributes
 ==========
