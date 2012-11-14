@@ -6,13 +6,10 @@ action :save do
     new_resource.bridge = [ "none" ]
   end
 
-  # TODO: Load kernel modules in a Chef-way
   if new_resource.vlan_dev || new_resource.device =~ /(eth|bond|wlan)[0-9]+\.[0-9]+/
     package "vlan"
+    modules "8021q"
 
-    execute "modprobe 8021q kludge" do
-      command "modprobe 8021q"
-    end
   end
 
   if new_resource.bond and new_resource.bond.class != Array
@@ -22,9 +19,7 @@ action :save do
   if new_resource.bond
     package "ifenslave-2.6"
 
-    execute "modprobe bonding kludge" do
-      command "modprobe bonding"
-    end
+    modules "bonding"
   end
 
   if new_resource.bootproto == "dhcp"
