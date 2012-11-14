@@ -8,4 +8,4 @@ version          "0.0.9"
 supports         "ubuntu", ">= 11.04"
 supports         "debian", ">= 6.0"
 
-depends          "modules"
+depends          "modules", ">= 0.1.2"
