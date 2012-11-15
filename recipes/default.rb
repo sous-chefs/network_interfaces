@@ -26,7 +26,7 @@ class Chef::Recipe
 end
 
 # Reset ifaces order on each run
-node["network_interfaces"]["order"]=[]
+node.default["network_interfaces"]["order"]=[]
 
 ruby_block "Merge interfaces" do
   block do
