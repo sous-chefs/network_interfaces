@@ -20,6 +20,9 @@ iface <%= @device %> inet <%= @type %>
 <% if @bridge_ports -%>
 	bridge_ports<% @bridge_ports.each do |port| %> <%= port %><% end %>
 <% end %>
+<% if @bridge_stp -%>
+	bridge_stp <%= @bridge_stp %>
+<% end %>
 <% if @bond_slaves -%>
 	bond-slaves<% @bond_slaves.each do |iface| %> <%= iface %><% end %>
 <% end %>
