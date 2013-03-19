@@ -8,7 +8,7 @@ class Chef::Recipe::Network_interfaces
 	end
   
 	def self.value(key,interfaces, resource=@new_resource, workingnode=@node)
-		resource.send(key) ? resource.send(key) : self.conf(interfaces,workingnode).has_key?(key) ? self.conf(interfaces,workingnode)[key] : false
+		resource.send(key) ? resource.send(key) : self.conf(interfaces,workingnode).has_key?(key) ? self.conf(interfaces,workingnode)[key] : nil
 	end
 end
 
