@@ -7,7 +7,7 @@ actions :save, :remove
 
 attribute :device, :kind_of => String, :name_attribute => true
 attribute :bridge, :kind_of => [ TrueClass, FalseClass, Array ], :default => false
-attribute :bridge_stp, :kind_of => String, :default => nil
+attribute :bridge_stp, :kind_of => [ TrueClass, FalseClass ]
 attribute :bond, :kind_of => [ TrueClass, FalseClass, Array ], :default => false
 attribute :bond_mode, :kind_of => String, :default => nil
 attribute :vlan_dev, :kind_of => String, :default => nil
