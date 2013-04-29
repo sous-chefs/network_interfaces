@@ -75,7 +75,7 @@ action :save do
       :custom => Chef::Recipe::Network_interfaces.value(:custom,new_resource.device, resource=new_resource, node)
     )
     notifies :run, "execute[if_up #{new_resource.name}]", :immediately
-    notifies :create, resources(:ruby_block => "Merge interfaces"), :delayed
+    notifies :create, "ruby_block[Merge interfaces]", :delayed
   end
 end
 
@@ -88,6 +88,6 @@ action :remove do
   file "/etc/network/interfaces.d/#{new_resource.device}" do
     action :delete
     notifies :run, "execute[if_down #{new_resource.name}]", :immediately
-    notifies :create, resources(:ruby_block => "Merge interfaces"), :delayed
+    notifies :create, "ruby_block[Merge interfaces]", :delayed
   end
 end
