@@ -9,16 +9,15 @@ action :save do
   if new_resource.vlan_dev || new_resource.device =~ /(eth|bond|wlan)[0-9]+\.[0-9]+/
     package "vlan"
     modules "8021q"
-
   end
 
+
   if new_resource.bond and new_resource.bond.class != Array
-    new_resource.bond = [ "none" ]
+      new_resource.bond = ['none']
   end
 
   if new_resource.bond
     package "ifenslave-2.6"
-
     modules "bonding"
   end
 
@@ -61,9 +60,15 @@ action :save do
       :broadcast => Chef::Recipe::Network_interfaces.value(:broadcast,new_resource.device, resource=new_resource, node),
       :bridge_ports => Chef::Recipe::Network_interfaces.value(:bridge,new_resource.device, resource=new_resource, node),
       :bridge_stp => Chef::Recipe::Network_interfaces.value(:bridge_stp,new_resource.device, resource=new_resource, node),
+      :bridge_fd => Chef::Recipe::Network_interfaces.value(:bridge_fd,new_resource.device, resource=new_resource, node),
+      :bridge_maxwait => Chef::Recipe::Network_interfaces.value(:bridge_maxwait,new_resource.device, resource=new_resource, node),
       :vlan_dev => Chef::Recipe::Network_interfaces.value(:vlan_dev,new_resource.device, resource=new_resource, node),
       :bond_slaves => Chef::Recipe::Network_interfaces.value(:bond,new_resource.device, resource=new_resource, node),
+      :bond_master => Chef::Recipe::Network_interfaces.value(:bond_master,new_resource.device, resource=new_resource, node),
       :bond_mode => Chef::Recipe::Network_interfaces.value(:bond_mode,new_resource.device, resource=new_resource, node),
+      :bond_miimon => Chef::Recipe::Network_interfaces.value(:bond_miimon,new_resource.device, resource=new_resource, node),
+      :bond_rate => Chef::Recipe::Network_interfaces.value(:bond_rate,new_resource.device, resource=new_resource, node),
+      :bond_policy => Chef::Recipe::Network_interfaces.value(:bond_policy,new_resource.device, resource=new_resource, node),
       :metric => Chef::Recipe::Network_interfaces.value(:metric,new_resource.device, resource=new_resource, node),
       :mtu => Chef::Recipe::Network_interfaces.value(:mtu,new_resource.device, resource=new_resource, node),
       :pre_up => Chef::Recipe::Network_interfaces.value(:pre_up,new_resource.device, resource=new_resource, node),

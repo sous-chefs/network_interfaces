@@ -15,6 +15,26 @@ Attributes
 
 Usage
 =====
+example for a bond device implementing LACP : 
+
+    network_interfaces "eth0" do
+      onboot true
+      bond "bond0-test"
+    end
+    
+    network_interfaces "eth1" do
+      onboot true
+      bond "bond0-test"
+    end
+    
+    network_interfaces "bond0-test" do
+      bond ["eth0","eth1"]
+      bond_mode "802.3ad"
+      bond_rate "fast"
+      bond_miimon 100
+      bond_policy "layer3+4"
+    end
+
 example for a bridge with pre-up and pre-down script :
 
     network_interfaces "br-test" do

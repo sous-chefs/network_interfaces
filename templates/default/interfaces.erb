@@ -23,11 +23,29 @@ iface <%= @device %> inet <%= @type %>
 <% unless @bridge_stp.nil? -%>
 	bridge_stp <%= @bridge_stp ? "on" : "off" %>
 <% end %>
+<% if @bridge_fd -%>
+  bridge_fd <%= @bridge_fd %>
+<% end %>
+<% if @bridge_maxwait -%>
+  bridge_maxwait <%= @bridge_maxwait %>
+<% end %>
+<% if @bond_master -%>
+  bond-master <%= @bond_master %>
+<% end %>
 <% if @bond_slaves -%>
 	bond-slaves<% @bond_slaves.each do |iface| %> <%= iface %><% end %>
 <% end %>
 <% if @bond_mode -%>
 	bond-mode <%= @bond_mode %>
+<% end %>
+<% if @bond_miimon -%>
+  bond-miimon <%= @bond_miimon %>
+<% end %>
+<% if @bond_rate -%>
+  bond-lacp-rate <%= @bond_rate %>
+<% end %>
+<% if @bond_policy -%>
+  bond-xmit_hash_policy <%= @bond_policy %>
 <% end %>
 <% if @metric -%>
 	metric <%= @metric %>
