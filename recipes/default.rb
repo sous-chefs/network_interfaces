@@ -22,17 +22,17 @@
 #
 
 # Reset ifaces order on each run
-node.default["network_interfaces"]["order"]=[]
+node.default['network_interfaces']['order'] = []
 
-legacy_debian = ((platform?("debian") &&
+legacy_debian = ((platform?('debian') &&
     node['platform_version'].to_f <= 6.0) ||
-  (platform?("ubuntu") &&
+  (platform?('ubuntu') &&
     node['platform_version'].to_f <= 11.04))
 
-ruby_block "Merge interfaces" do
+ruby_block 'Merge interfaces' do
   block do
-    File.open("/etc/network/interfaces", "w") do |ifaces|
-      ( ["/etc/network/interfaces.tpl"] + node["network_interfaces"]["order"].map{|ifile| "/etc/network/interfaces.d/#{ifile}"} ).uniq.compact.each do |ifile|
+    File.open('/etc/network/interfaces', 'w') do |ifaces|
+      (['/etc/network/interfaces.tpl'] + node['network_interfaces']['order'].map { |ifile| "/etc/network/interfaces.d/#{ifile}" }).uniq.compact.each do |ifile|
         File.open(ifile) do |f|
           f.each_line { |line| ifaces.write(line) }
         end
@@ -43,43 +43,41 @@ ruby_block "Merge interfaces" do
   action :nothing
 end
 
-cookbook_file "interfaces" do
+cookbook_file 'interfaces' do
   if legacy_debian
-    path "/etc/network/interfaces.tpl"
-  elsif node["network_interfaces"]["replace_orig"]
-    path "/etc/network/interfaces"
+    path '/etc/network/interfaces.tpl'
+  elsif node['network_interfaces']['replace_orig']
+    path '/etc/network/interfaces'
   end
-  mode 0644
-  owner "root"
-  group "root"
-  only_if {
-    node["network_interfaces"]["replace_orig"]
-  }
+  mode '0644'
+  owner 'root'
+  group 'root'
+  only_if { node['network_interfaces']['replace_orig'] }
 end
 
-file "/etc/network/interfaces" do
-  if File.exist?("/etc/network/interfaces")
-    new_content = File.read("/etc/network/interfaces")
+file '/etc/network/interfaces' do
+  if File.exist?('/etc/network/interfaces')
+    new_content = File.read('/etc/network/interfaces')
   else
-    new_content = "auto lo\n" +
-      "iface lo inet loopback\n" +
+    new_content = "auto lo\n" \
+      "iface lo inet loopback\n" \
       "\n"
   end
-  content (new_content +
-    "\n# The following was added by the Chef network_interfaces " +
-    "cookbook:\n" +
+  content (new_content \
+    "\n# The following was added by the Chef network_interfaces " \
+    "cookbook:\n" \
     "source /etc/network/interfaces.d/*\n")
-  not_if {
-    node["network_interfaces"]["replace_orig"] ||
+  not_if do
+    node['network_interfaces']['replace_orig'] ||
     legacy_debian ||
-    File.read("/etc/network/interfaces") =~ /^source \/etc\/network\/interfaces.d\/\*$/
-  }
+    File.read('/etc/network/interfaces') =~ /^source \/etc\/network\/interfaces.d\/\*$/
+  end
   action :create
 end
 
-directory "/etc/network/interfaces.d" do
-	owner "root"
-	group "root"
-	mode "0755"
-	action :create
+directory '/etc/network/interfaces.d' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
 end
