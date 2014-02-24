@@ -1,6 +1,10 @@
 network_interface
 =================
 
+v0.3.1 (2014-02-24)
+-------------------
+- Clean up code, following Rubocop’s suggestions
+
 v0.3.0 (2013-11-13)
 -------------------
 - Refactor & streamline much of the code
