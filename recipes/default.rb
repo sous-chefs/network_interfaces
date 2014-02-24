@@ -63,9 +63,8 @@ file '/etc/network/interfaces' do
       "iface lo inet loopback\n" \
       "\n"
   end
-  content (new_content \
-    "\n# The following was added by the Chef network_interfaces " \
-    "cookbook:\n" \
+  content(new_content \
+    "\n# The following was added by the Chef network_interfaces cookbook:\n" \
     "source /etc/network/interfaces.d/*\n")
   not_if do
     node['network_interfaces']['replace_orig'] ||
