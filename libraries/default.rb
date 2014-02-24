@@ -1,4 +1,4 @@
-class Chef::Recipe::Network_interfaces
+class Chef::Recipe::NetworkInterfaces
   def self.conf(interface, workingnode = @node)
     if workingnode.key?('network_interfaces') && workingnode['network_interfaces'].key?('interface')
       return workingnode[:network_interfaces][interface]

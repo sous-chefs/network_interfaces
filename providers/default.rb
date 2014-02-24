@@ -24,7 +24,7 @@ action :save do
     type = 'static'
   end
 
-  package 'ifmetric' if Chef::Recipe::Network_interfaces.value(:metric, new_resource.device, new_resource, node)
+  package 'ifmetric' if Chef::Recipe::NetworkInterfaces.value(:metric, new_resource.device, new_resource, node)
 
   package 'bridge-utils' if new_resource.bridge
 
@@ -41,28 +41,28 @@ action :save do
     group 'root'
     mode '0644'
     variables(
-      auto:         Chef::Recipe::Network_interfaces.value(:onboot,     new_resource.device, new_resource, node),
+      auto:         Chef::Recipe::NetworkInterfaces.value(:onboot,     new_resource.device, new_resource, node),
       type:         type,
       device:       new_resource.device,
-      address:      Chef::Recipe::Network_interfaces.value(:target,     new_resource.device, new_resource, node),
-      network:      Chef::Recipe::Network_interfaces.value(:network,    new_resource.device, new_resource, node),
-      netmask:      Chef::Recipe::Network_interfaces.value(:mask,       new_resource.device, new_resource, node),
-      gateway:      Chef::Recipe::Network_interfaces.value(:gateway,    new_resource.device, new_resource, node),
-      broadcast:    Chef::Recipe::Network_interfaces.value(:broadcast,  new_resource.device, new_resource, node),
-      bridge_ports: Chef::Recipe::Network_interfaces.value(:bridge,     new_resource.device, new_resource, node),
-      bridge_stp:   Chef::Recipe::Network_interfaces.value(:bridge_stp, new_resource.device, new_resource, node),
-      vlan_dev:     Chef::Recipe::Network_interfaces.value(:vlan_dev,   new_resource.device, new_resource, node),
-      bond_slaves:  Chef::Recipe::Network_interfaces.value(:bond,       new_resource.device, new_resource, node),
-      bond_mode:    Chef::Recipe::Network_interfaces.value(:bond_mode,  new_resource.device, new_resource, node),
-      metric:       Chef::Recipe::Network_interfaces.value(:metric,     new_resource.device, new_resource, node),
-      mtu:          Chef::Recipe::Network_interfaces.value(:mtu,        new_resource.device, new_resource, node),
-      pre_up:       Chef::Recipe::Network_interfaces.value(:pre_up,     new_resource.device, new_resource, node),
-      up:           Chef::Recipe::Network_interfaces.value(:up,         new_resource.device, new_resource, node),
-      post_up:      Chef::Recipe::Network_interfaces.value(:post_up,    new_resource.device, new_resource, node),
-      pre_down:     Chef::Recipe::Network_interfaces.value(:pre_down,   new_resource.device, new_resource, node),
-      down:         Chef::Recipe::Network_interfaces.value(:down,       new_resource.device, new_resource, node),
-      post_down:    Chef::Recipe::Network_interfaces.value(:post_down,  new_resource.device, new_resource, node),
-      custom:       Chef::Recipe::Network_interfaces.value(:custom,     new_resource.device, new_resource, node)
+      address:      Chef::Recipe::NetworkInterfaces.value(:target,     new_resource.device, new_resource, node),
+      network:      Chef::Recipe::NetworkInterfaces.value(:network,    new_resource.device, new_resource, node),
+      netmask:      Chef::Recipe::NetworkInterfaces.value(:mask,       new_resource.device, new_resource, node),
+      gateway:      Chef::Recipe::NetworkInterfaces.value(:gateway,    new_resource.device, new_resource, node),
+      broadcast:    Chef::Recipe::NetworkInterfaces.value(:broadcast,  new_resource.device, new_resource, node),
+      bridge_ports: Chef::Recipe::NetworkInterfaces.value(:bridge,     new_resource.device, new_resource, node),
+      bridge_stp:   Chef::Recipe::NetworkInterfaces.value(:bridge_stp, new_resource.device, new_resource, node),
+      vlan_dev:     Chef::Recipe::NetworkInterfaces.value(:vlan_dev,   new_resource.device, new_resource, node),
+      bond_slaves:  Chef::Recipe::NetworkInterfaces.value(:bond,       new_resource.device, new_resource, node),
+      bond_mode:    Chef::Recipe::NetworkInterfaces.value(:bond_mode,  new_resource.device, new_resource, node),
+      metric:       Chef::Recipe::NetworkInterfaces.value(:metric,     new_resource.device, new_resource, node),
+      mtu:          Chef::Recipe::NetworkInterfaces.value(:mtu,        new_resource.device, new_resource, node),
+      pre_up:       Chef::Recipe::NetworkInterfaces.value(:pre_up,     new_resource.device, new_resource, node),
+      up:           Chef::Recipe::NetworkInterfaces.value(:up,         new_resource.device, new_resource, node),
+      post_up:      Chef::Recipe::NetworkInterfaces.value(:post_up,    new_resource.device, new_resource, node),
+      pre_down:     Chef::Recipe::NetworkInterfaces.value(:pre_down,   new_resource.device, new_resource, node),
+      down:         Chef::Recipe::NetworkInterfaces.value(:down,       new_resource.device, new_resource, node),
+      post_down:    Chef::Recipe::NetworkInterfaces.value(:post_down,  new_resource.device, new_resource, node),
+      custom:       Chef::Recipe::NetworkInterfaces.value(:custom,     new_resource.device, new_resource, node)
     )
     notifies :run, "execute[if_up #{new_resource.name}]", :immediately
     notifies :create, 'ruby_block[Merge interfaces]', :delayed
@@ -71,8 +71,8 @@ end
 
 action :remove do
   execute "if_down #{new_resource.name}" do
-    command "ifdown #{Chef::Recipe::Network_interfaces.value(:device, new_resource.device, new_resource, node)} -i /etc/network/interfaces.d/#{Chef::Recipe::Network_interfaces.value(:device, new_resource.device, new_resource, node)}"
-    only_if "ifdown -n #{Chef::Recipe::Network_interfaces.value(:device, new_resource.device, new_resource, node)} -i /etc/network/interfaces.d/#{Chef::Recipe::Network_interfaces.value(:device, new_resource.device, new_resource, node)}"
+    command "ifdown #{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)} -i /etc/network/interfaces.d/#{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)}"
+    only_if "ifdown -n #{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)} -i /etc/network/interfaces.d/#{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)}"
   end
 
   file "/etc/network/interfaces.d/#{new_resource.device}" do
