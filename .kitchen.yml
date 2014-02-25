@@ -1,0 +1,15 @@
+---
+driver:
+  name: vagrant
+  require_chef_omnibus: true
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: ubuntu-12.04
+  - name: debian-6.0.8
+
+suites:
+  - name: default
+    run_list: network_interfaces::default

@@ -3,40 +3,40 @@ auto <%= @device %>
 <% end %>
 iface <%= @device %> inet <%= @type %>
 <% if @address -%>
-	address <%= @address %>
+  address <%= @address %>
 <% end %>
 <% if @netmask -%>
-	netmask <%= @netmask %>
+  netmask <%= @netmask %>
 <% end %>
 <% if @broadcast -%>
-	broadcast <%= @broadcast %>
+  broadcast <%= @broadcast %>
 <% end %>
 <% if @gateway -%>
-	gateway <%= @gateway %>
+  gateway <%= @gateway %>
 <% end %>
 <% if @vlan_dev -%>
-	vlan_raw_device <%= @vlan_dev %>
+  vlan_raw_device <%= @vlan_dev %>
 <% end %>
 <% if @bridge_ports -%>
-	bridge_ports<% @bridge_ports.each do |port| %> <%= port %><% end %>
+  bridge_ports<% @bridge_ports.each do |port| %> <%= port %><% end %>
 <% end %>
 <% unless @bridge_stp.nil? -%>
-	bridge_stp <%= @bridge_stp ? "on" : "off" %>
+  bridge_stp <%= @bridge_stp ? "on" : "off" %>
 <% end %>
 <% if @bond_slaves -%>
-	bond-slaves<% @bond_slaves.each do |iface| %> <%= iface %><% end %>
+  bond-slaves<% @bond_slaves.each do |iface| %> <%= iface %><% end %>
 <% end %>
 <% if @bond_mode -%>
-	bond-mode <%= @bond_mode %>
+  bond-mode <%= @bond_mode %>
 <% end %>
 <% if @metric -%>
-	metric <%= @metric %>
+  metric <%= @metric %>
 <% end %>
 <% if @mtu -%>
-	mtu <%= @mtu %>
+  mtu <%= @mtu %>
 <% end %>
 <% if @pre_up -%>
-	pre-up <%= @pre_up %>
+  pre-up <%= @pre_up %>
 <% end %>
 <% if @up -%>
         up <%= @up %>
