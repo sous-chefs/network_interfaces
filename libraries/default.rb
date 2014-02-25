@@ -8,10 +8,6 @@ class Chef::Recipe::NetworkInterfaces
   end
 
   def self.value(key, interfaces, resource = @new_resource, workingnode = @node)
-    !resource.send(key).nil?
-      ? resource.send(key)
-      : conf(interfaces, workingnode).key?(key)
-        ? conf(interfaces, workingnode)[key]
-        : nil
+    !resource.send(key).nil? ? resource.send(key) : conf(interfaces, workingnode).key?(key) ? conf(interfaces, workingnode)[key] : nil
   end
 end
