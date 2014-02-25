@@ -28,7 +28,7 @@ action :save do
 
   package 'bridge-utils' if new_resource.bridge
 
-  execute "if_up #{new_resource.name}" do
+  if_up = execute "if_up #{new_resource.name}" do
     command "ifdown #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device} ; ifup #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
     only_if "ifdown -n #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device} ; ifup -n #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
     action :nothing
@@ -67,10 +67,12 @@ action :save do
     notifies :run, "execute[if_up #{new_resource.name}]", :immediately
     notifies :create, 'ruby_block[Merge interfaces]', :delayed
   end
+
+  new_resource.updated_by_last_action(if_up.updated_by_last_action?)
 end
 
 action :remove do
-  execute "if_down #{new_resource.name}" do
+  if_down = execute "if_down #{new_resource.name}" do
     command "ifdown #{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)} -i /etc/network/interfaces.d/#{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)}"
     only_if "ifdown -n #{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)} -i /etc/network/interfaces.d/#{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)}"
   end
@@ -80,4 +82,6 @@ action :remove do
     notifies :run, "execute[if_down #{new_resource.name}]", :immediately
     notifies :create, 'ruby_block[Merge interfaces]', :delayed
   end
+
+  new_resource.updated_by_last_action(if_down.updated_by_last_action?)
 end
