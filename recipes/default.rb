@@ -22,7 +22,7 @@
 #
 
 # Reset ifaces order on each run
-node.default['network_interfaces']['order'] = []
+node.set['network_interfaces']['order'] = []
 
 legacy_debian = ((platform?('debian') &&
     node['platform_version'].to_f <= 6.0) ||
