@@ -1,6 +1,12 @@
 network_interface
 =================
 
+v1.0.0 (2014-03-03)
+-------------------
+
+- released version on community
+
+
 v1.0.0 (2014-02-24=5)
 -------------------
 - Bump version to 1.0.0 to reflect production-level usage
