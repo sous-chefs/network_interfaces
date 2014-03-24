@@ -3,23 +3,24 @@
 class Chef
   class Recipe
     class NetworkInterfaces
-      def self.conf(interface, workingnode = @node)
-        if workingnode.key?('network_interfaces') && workingnode['network_interfaces'].key?('interface')
-          return workingnode[:network_interfaces][interface]
+      def self.conf(interface, node)
+        if node.key?('network_interfaces') &&
+          node['network_interfaces'].key?('interface')
+          node[:network_interfaces][interface]
         else
-          return {}
+          {}
         end
       end
 
-      def self.value(key, interfaces, resource = @new_resource, workingnode = @node)
-        if !resource.send(key).nil?
-          resource.send(key)
-        else
-          if conf(interfaces, workingnode).key?(key)
-            conf(interfaces, workingnode)[key]
+      def self.value(key, interface, resource = @new_resource, node)
+        if resource.send(key).nil?
+          if conf(interface, node).key?(key)
+            conf(interface, node)[key]
           else
             nil
           end
+        else
+          resource.send(key)
         end
       end
     end
