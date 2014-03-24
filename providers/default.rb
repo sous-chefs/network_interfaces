@@ -3,8 +3,10 @@ action :save do
     (node['network_interfaces']['order'] || []) +
     [new_resource.device]
 
-  new_resource.bridge = ['none'] if new_resource.bridge &&
+  if new_resource.bridge &&
     new_resource.bridge.class != Array
+    new_resource.bridge = ['none']
+  end
 
   if new_resource.vlan_dev ||
     new_resource.device =~ /(eth|bond|wlan)[0-9]+\.[0-9]+/
@@ -12,8 +14,10 @@ action :save do
     modules '8021q'
   end
 
-  new_resource.bond = ['none'] if new_resource.bond &&
+  if new_resource.bond &&
     new_resource.bond.class != Array
+    new_resource.bond = ['none']
+  end
 
   if new_resource.bond
     package 'ifenslave-2.6'
