@@ -1,5 +1,11 @@
 # A set of methods for interacting with this cookbooks attributes
 # and any attributes being set on a new resource
+#
+# What this set of methods actually does:
+#
+# If a value is not provided with the resource, check the node attributes for
+# it.  If the value is present, use that value, otherwise, leave it nil.
+
 class Chef
   class Recipe
     class NetworkInterfaces
