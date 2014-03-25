@@ -1,7 +1,6 @@
 action :save do
   node.set['network_interfaces']['order'] =
-    (node['network_interfaces']['order'] || []) +
-    [new_resource.device]
+    (node['network_interfaces']['order'] || []) + [new_resource.device]
 
   if new_resource.bridge &&
     new_resource.bridge.class != Array
