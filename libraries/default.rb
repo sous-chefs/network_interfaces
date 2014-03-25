@@ -6,7 +6,7 @@ class Chef
       def self.conf(interface, node)
         if node.key?('network_interfaces') &&
           node['network_interfaces'].key?('interface')
-          node[:network_interfaces][interface]
+          node['network_interfaces'][interface]
         else
           {}
         end
