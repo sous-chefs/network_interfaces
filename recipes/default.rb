@@ -24,31 +24,14 @@
 # Reset ifaces order on each run
 node.set['network_interfaces']['order'] = []
 
-legacy_debian = ((platform?('debian') &&
-    node['platform_version'].to_f <= 6.0) ||
-  (platform?('ubuntu') &&
-    node['platform_version'].to_f <= 11.04))
-
-ruby_block 'Merge interfaces' do
-  block do
-    File.open('/etc/network/interfaces', 'w') do |ifaces|
-      (['/etc/network/interfaces.tpl'] + node['network_interfaces']['order'].map { |ifile| "/etc/network/interfaces.d/#{ifile}" }).uniq.compact.each do |ifile|
-        File.open(ifile) do |f|
-          f.each_line { |line| ifaces.write(line) }
-        end
-      end
-    end
-  end
-  only_if { legacy_debian }
-  action :nothing
+if (platform?('debian') && node['platform_version'].to_f < 6.0) ||
+    (platform?('ubuntu') && node['platform_version'].to_f < 10.04)
+  fail "This platform version (#{node['platform_version']}) is not supported " \
+    'by this cookbook'
 end
 
 cookbook_file 'interfaces' do
-  if legacy_debian
-    path '/etc/network/interfaces.tpl'
-  elsif node['network_interfaces']['replace_orig']
-    path '/etc/network/interfaces'
-  end
+  path '/etc/network/interfaces'
   mode '0644'
   owner 'root'
   group 'root'
@@ -68,7 +51,6 @@ file '/etc/network/interfaces' do
     "source /etc/network/interfaces.d/*\n"
   not_if do
     node['network_interfaces']['replace_orig'] ||
-    legacy_debian ||
     File.read('/etc/network/interfaces') =~ %r{^source /etc/network/interfaces.d/\*$}
   end
   action :create
