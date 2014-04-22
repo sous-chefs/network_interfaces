@@ -1,3 +1,5 @@
+[![Cookbook Version](https://img.shields.io/cookbook/v/network_interfaces.svg)](https://community.opscode.com/cookbooks/network_interfaces)
+
 Description
 ===========
 
