@@ -35,6 +35,12 @@ iface <%= @device %> inet <%= @type %>
 <% if @bond_mode -%>
   bond-mode <%= @bond_mode %>
 <% end %>
+<% if @bond_master -%>
+  bond-master <%= @bond_master %>
+<% end %>
+<% if @bond_primary -%>
+  bond-primary <%= @bond_primary %>
+<% end %>
 <% if @ovs_type -%>
   ovs_type <%= @ovs_type %>
 <% end %>
