@@ -62,7 +62,12 @@ action :save do
       pre_down:     Chef::Recipe::NetworkInterfaces.value(:pre_down,   new_resource.device, new_resource, node),
       down:         Chef::Recipe::NetworkInterfaces.value(:down,       new_resource.device, new_resource, node),
       post_down:    Chef::Recipe::NetworkInterfaces.value(:post_down,  new_resource.device, new_resource, node),
-      custom:       Chef::Recipe::NetworkInterfaces.value(:custom,     new_resource.device, new_resource, node)
+      custom:       Chef::Recipe::NetworkInterfaces.value(:custom,     new_resource.device, new_resource, node),
+      ovs_type:     Chef::Recipe::NetworkInterfaces.value(:ovs_type,   new_resource.device, new_resource, node),
+      ovs_ports:    Chef::Recipe::NetworkInterfaces.value(:ovs_ports,  new_resource.device, new_resource, node),
+      ovs_bonds:    Chef::Recipe::NetworkInterfaces.value(:ovs_bonds,  new_resource.device, new_resource, node),
+      ovs_options:  Chef::Recipe::NetworkInterfaces.value(:ovs_options,new_resource.device, new_resource, node),
+      ovs_bridge:   Chef::Recipe::NetworkInterfaces.value(:ovs_bridge, new_resource.device, new_resource, node)
     )
     notifies :run, "execute[if_up #{new_resource.name}]", :immediately
     notifies :create, 'ruby_block[Merge interfaces]', :delayed

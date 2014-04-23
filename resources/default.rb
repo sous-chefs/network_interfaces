@@ -27,3 +27,8 @@ attribute :pre_down,   kind_of: String
 attribute :down,       kind_of: String
 attribute :post_down,  kind_of: String
 attribute :custom,     kind_of: Hash
+attribute :ovs_type,   kind_of: String
+attribute :ovs_bridge, kind_of: String
+attribute :ovs_ports,  kind_of: String
+attribute :ovs_bonds,  kind_of: String
+attribute :ovs_options,kind_of: String
