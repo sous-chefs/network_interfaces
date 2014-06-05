@@ -23,9 +23,9 @@ attribute :mask,       kind_of: String
 attribute :network,    kind_of: String
 attribute :broadcast,  kind_of: String
 attribute :pre_up,     kind_of: String
-attribute :up,         kind_of: String
+attribute :up,         kind_of: Array
 attribute :post_up,    kind_of: String
 attribute :pre_down,   kind_of: String
-attribute :down,       kind_of: String
+attribute :down,       kind_of: Array
 attribute :post_down,  kind_of: String
 attribute :custom,     kind_of: Hash

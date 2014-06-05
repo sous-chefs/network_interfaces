@@ -39,7 +39,13 @@ iface <%= @device %> <%= @family %> <%= @method %>
   pre-up <%= @pre_up %>
 <% end %>
 <% if @up -%>
-        up <%= @up %>
+  <% if @up.kind_of?(Array) -%>
+    <% @up.each do |u| -%>
+      up <%= u %>
+    <% end %>
+  <% else -%>
+      up <%= @up %>
+  <% end %>
 <% end %>
 <% if @post_up -%>
         post-up <%= @post_up %>
@@ -48,7 +54,13 @@ iface <%= @device %> <%= @family %> <%= @method %>
         pre-down <%= @pre_down %>
 <% end %>
 <% if @down -%>
-        down <%= @down %>
+  <% if @down.kind_of?(Array) -%>
+    <% @down.each do |d| -%>
+      down <%= d %>
+    <% end %>
+  <% else -%>
+      down <%= @down %>
+  <% end %>
 <% end %>
 <% if @post_down -%>
         post-down <%= @post_down %>
@@ -58,4 +70,5 @@ iface <%= @device %> <%= @family %> <%= @method %>
         <%= instruc %> <%= command %>
 <% end %>
 <% end %>
+
 
