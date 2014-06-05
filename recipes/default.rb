@@ -69,7 +69,7 @@ file '/etc/network/interfaces' do
   not_if do
     node['network_interfaces']['replace_orig'] ||
     legacy_debian ||
-    File.read('/etc/network/interfaces') =~ %r(^source /etc/network/interfaces.d/\*$)
+    File.read('/etc/network/interfaces') =~ %r{^source /etc/network/interfaces.d/\*$}
   end
   action :create
 end

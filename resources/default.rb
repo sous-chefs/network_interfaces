@@ -13,6 +13,8 @@ attribute :bond_mode,  kind_of: String
 attribute :vlan_dev,   kind_of: String
 attribute :onboot,     kind_of: [TrueClass, FalseClass], default: true
 attribute :bootproto,  kind_of: String
+attribute :method,     kind_of: String
+attribute :family,     kind_of: String, default: "inet"
 attribute :target,     kind_of: String
 attribute :gateway,    kind_of: String
 attribute :metric,     kind_of: Integer
@@ -21,9 +23,9 @@ attribute :mask,       kind_of: String
 attribute :network,    kind_of: String
 attribute :broadcast,  kind_of: String
 attribute :pre_up,     kind_of: String
-attribute :up,         kind_of: String
+attribute :up,         kind_of: Array
 attribute :post_up,    kind_of: String
 attribute :pre_down,   kind_of: String
-attribute :down,       kind_of: String
+attribute :down,       kind_of: Array
 attribute :post_down,  kind_of: String
 attribute :custom,     kind_of: Hash
