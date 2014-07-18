@@ -40,7 +40,7 @@ iface <%= @device %> <%= @family %> <%= @method %>
 <% end %>
 <% if @up -%>
   <% if @up.kind_of?(Array) -%>
-    <% @up.each do |u| -%>
+    <% @up.flatten.each do |u| -%>
       up <%= u %>
     <% end %>
   <% else -%>
@@ -55,7 +55,7 @@ iface <%= @device %> <%= @family %> <%= @method %>
 <% end %>
 <% if @down -%>
   <% if @down.kind_of?(Array) -%>
-    <% @down.each do |d| -%>
+    <% @down.flatten.each do |d| -%>
       down <%= d %>
     <% end %>
   <% else -%>
