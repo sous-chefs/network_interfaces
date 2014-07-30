@@ -2,8 +2,7 @@ action :save do
   node.set['network_interfaces']['order'] =
     (node['network_interfaces']['order'] || []) + [new_resource.device]
 
-  if new_resource.bridge &&
-    new_resource.bridge.class != Array
+  if new_resource.bridge && ! new_resource.bond.kind_of?(Array)
     new_resource.bridge = ['none']
   end
 
@@ -13,8 +12,7 @@ action :save do
     modules '8021q'
   end
 
-  if new_resource.bond &&
-    new_resource.bond.class != Array
+  if new_resource.bond && ! new_resource.bond.kind_of?(Array)
     new_resource.bond = ['none']
   end
 
