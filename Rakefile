@@ -1,37 +1,51 @@
 #!/usr/bin/env rake
 
-require 'bundler/setup'
-
+# Style tests. Rubocop and Foodcritic
 namespace :style do
-  require 'rubocop/rake_task'
-  desc 'Run Ruby style checks'
-  Rubocop::RakeTask.new(:ruby)
+  begin
+    require 'rubocop/rake_task'
+    desc 'Run Ruby style checks'
+    RuboCop::RakeTask.new(:ruby)
+  rescue LoadError
+    puts '>>>>> Rubocop gem not loaded, omitting tasks' unless ENV['CI']
+  end
 
-  require 'foodcritic'
-  desc 'Run Chef style checks'
-  FoodCritic::Rake::LintTask.new(:chef)
+  begin
+    require 'foodcritic'
+
+    desc 'Run Chef style checks'
+    FoodCritic::Rake::LintTask.new(:chef) do |t|
+      t.options = {
+        fail_tags: ['any']
+      }
+    end
+  rescue LoadError
+    puts '>>>>> foodcritic gem not loaded, omitting tasks' unless ENV['CI']
+  end
 end
 
 desc 'Run all style checks'
 task style: ['style:chef', 'style:ruby']
 
-require 'rspec/core/rake_task'
-desc 'Run ChefSpec unit tests'
-RSpec::Core::RakeTask.new(:unit) do |t|
-  t.rspec_opts = '--color --format progress'
-end
+# Integration tests. Kitchen.ci
+namespace :integration do
+  begin
+    require 'kitchen/rake_tasks'
 
-require 'kitchen'
-desc 'Run Test Kitchen integration tests'
-task :integration do
-  Kitchen.logger = Kitchen.default_file_logger
-  Kitchen::Config.new.instances.each do |instance|
-    instance.test(:always)
+    desc 'Run kitchen integration tests'
+    Kitchen::RakeTasks.new
+  rescue LoadError
+    puts '>>>>> Kitchen gem not loaded, omitting tasks' unless ENV['CI']
   end
 end
 
-# The default rake task should just run it all
-task default: %w(style unit integration)
+namespace :maintain do
+  require 'stove/rake_task'
+  Stove::RakeTask.new
+end
 
-# Test task is for Travis, no integration tests
-task test: %w(style unit)
+desc 'Run all tests on Travis'
+task travis: ['style']
+
+# Default
+task default: ['style', 'integration:kitchen:all']
