@@ -1,22 +1,23 @@
-[![Cookbook Version](https://img.shields.io/cookbook/v/network_interfaces.svg)](https://community.opscode.com/cookbooks/network_interfaces)
+# network_interfaces
 
-Description
-===========
+[![Cookbook Version](https://img.shields.io/cookbook/v/network_interfaces.svg)](https://community.opscode.com/cookbooks/network_interfaces)
+[![Travis status](http://img.shields.io/travis/redguide/network_interfaces.svg)](https://travis-ci.org/redguide/network_interfaces)
+
+
+## Description
 
 Manage /etc/network/interfaces on debian / Ubuntu
 
-Requirements
-============
+## Requirements
 
 ifupdown-0.7~alpha3 or older :
 * debian >= squeeze
 * Ubuntu >= 11.04 (natty)
 
-Attributes
-==========
+## Attributes
 
-Usage
-=====
+## Usage
+
 example for a bridge with pre-up and pre-down script :
 
 ``` ruby
