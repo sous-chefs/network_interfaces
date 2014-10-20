@@ -19,6 +19,9 @@ action :save do
   if new_resource.bond
     package 'ifenslave-2.6'
     modules 'bonding'
+    new_resource.bond.each do |bond_slave|
+      `ip address flush dev #{bond_slave}`
+    end
   end
 
   if new_resource.bootproto == 'dhcp'
