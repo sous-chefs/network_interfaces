@@ -38,11 +38,18 @@ action :save do
 
   e = []
   target.each_with_index do |t, i|
+    if t.include? '/'
+      #Netmask specified in a CIDR format
+      netmask = IPAddr.new('255.255.255.255').mask(t.split('/')[1]).to_s
+      t = t.split('/')[0]
+    else
+      netmask = Chef::Recipe::NetworkInterfaces.value(:mask,       new_resource.device, new_resource, node)
+    end
     iface_data = {
         "type" =>         type,
         "device" =>       new_resource.device,
         "address" =>      t,
-        "netmask" =>      Chef::Recipe::NetworkInterfaces.value(:mask,       new_resource.device, new_resource, node)
+        "netmask" =>      netmask
     }
     if i ==0 
 	#We need the whole interface description only at the first address entry
