@@ -2,7 +2,7 @@
 <% if entry['auto'] -%>
 auto <%= entry['device'] %>
 <% end %>
-iface <%= entry['device'] %> inet <%= entry['type'] %>
+iface <%= entry['device'] %> <%= entry['family'] %> <%= entry['type'] %>
 <% if entry['address'] -%>
   address <%= entry['address'] %>
 <% end %>
