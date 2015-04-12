@@ -37,31 +37,34 @@ action :save do
   end
 
   e = []
-  target.each do |t|
+  target.each_with_index do |t, i|
     iface_data = {
-        "auto" =>         Chef::Recipe::NetworkInterfaces.value(:onboot,     new_resource.device, new_resource, node),
         "type" =>         type,
         "device" =>       new_resource.device,
         "address" =>      t,
-        "network" =>      Chef::Recipe::NetworkInterfaces.value(:network,    new_resource.device, new_resource, node),
-        "netmask" =>      Chef::Recipe::NetworkInterfaces.value(:mask,       new_resource.device, new_resource, node),
-        "gateway" =>      Chef::Recipe::NetworkInterfaces.value(:gateway,    new_resource.device, new_resource, node),
-        "broadcast" =>    Chef::Recipe::NetworkInterfaces.value(:broadcast,  new_resource.device, new_resource, node),
-        "bridge_ports" => Chef::Recipe::NetworkInterfaces.value(:bridge,     new_resource.device, new_resource, node),
-        "bridge_stp" =>   Chef::Recipe::NetworkInterfaces.value(:bridge_stp, new_resource.device, new_resource, node),
-        "vlan_dev" =>     Chef::Recipe::NetworkInterfaces.value(:vlan_dev,   new_resource.device, new_resource, node),
-        "bond_slaves" =>  Chef::Recipe::NetworkInterfaces.value(:bond,       new_resource.device, new_resource, node),
-        "bond_mode" =>    Chef::Recipe::NetworkInterfaces.value(:bond_mode,  new_resource.device, new_resource, node),
-        "metric" =>       Chef::Recipe::NetworkInterfaces.value(:metric,     new_resource.device, new_resource, node),
-        "mtu" =>          Chef::Recipe::NetworkInterfaces.value(:mtu,        new_resource.device, new_resource, node),
-        "pre_up" =>       Chef::Recipe::NetworkInterfaces.value(:pre_up,     new_resource.device, new_resource, node),
-        "up" =>           Chef::Recipe::NetworkInterfaces.value(:up,         new_resource.device, new_resource, node),
-        "post_up" =>      Chef::Recipe::NetworkInterfaces.value(:post_up,    new_resource.device, new_resource, node),
-        "pre_down" =>     Chef::Recipe::NetworkInterfaces.value(:pre_down,   new_resource.device, new_resource, node),
-        "down" =>         Chef::Recipe::NetworkInterfaces.value(:down,       new_resource.device, new_resource, node),
-        "post_down" =>    Chef::Recipe::NetworkInterfaces.value(:post_down,  new_resource.device, new_resource, node),
-        "custom" =>       Chef::Recipe::NetworkInterfaces.value(:custom,     new_resource.device, new_resource, node)
+        "netmask" =>      Chef::Recipe::NetworkInterfaces.value(:mask,       new_resource.device, new_resource, node)
     }
+    if i ==0 
+	#We need the whole interface description only at the first address entry
+	iface_data["auto"]=Chef::Recipe::NetworkInterfaces.value(:onboot,     new_resource.device, new_resource, node)
+        iface_data["network"] =      Chef::Recipe::NetworkInterfaces.value(:network,    new_resource.device, new_resource, node),
+        iface_data["gateway"] =      Chef::Recipe::NetworkInterfaces.value(:gateway,    new_resource.device, new_resource, node),
+        iface_data["broadcast"] =    Chef::Recipe::NetworkInterfaces.value(:broadcast,  new_resource.device, new_resource, node),
+        iface_data["bridge_ports"] = Chef::Recipe::NetworkInterfaces.value(:bridge,     new_resource.device, new_resource, node),
+        iface_data["bridge_stp"] =   Chef::Recipe::NetworkInterfaces.value(:bridge_stp, new_resource.device, new_resource, node),
+        iface_data["vlan_dev"] =     Chef::Recipe::NetworkInterfaces.value(:vlan_dev,   new_resource.device, new_resource, node),
+        iface_data["bond_slaves"] =  Chef::Recipe::NetworkInterfaces.value(:bond,       new_resource.device, new_resource, node),
+        iface_data["bond_mode"] =    Chef::Recipe::NetworkInterfaces.value(:bond_mode,  new_resource.device, new_resource, node),
+        iface_data["metric"] =       Chef::Recipe::NetworkInterfaces.value(:metric,     new_resource.device, new_resource, node),
+        iface_data["mtu"] =          Chef::Recipe::NetworkInterfaces.value(:mtu,        new_resource.device, new_resource, node),
+        iface_data["pre_up"] =       Chef::Recipe::NetworkInterfaces.value(:pre_up,     new_resource.device, new_resource, node),
+        iface_data["up"] =           Chef::Recipe::NetworkInterfaces.value(:up,         new_resource.device, new_resource, node),
+        iface_data["post_up"] =      Chef::Recipe::NetworkInterfaces.value(:post_up,    new_resource.device, new_resource, node),
+        iface_data["pre_down"] =     Chef::Recipe::NetworkInterfaces.value(:pre_down,   new_resource.device, new_resource, node),
+        iface_data["down"] =        Chef::Recipe::NetworkInterfaces.value(:down,       new_resource.device, new_resource, node),
+        iface_data["post_down"] =    Chef::Recipe::NetworkInterfaces.value(:post_down,  new_resource.device, new_resource, node),
+        iface_data["custom"] =       Chef::Recipe::NetworkInterfaces.value(:custom,     new_resource.device, new_resource, node)
+    end 
     e.push(iface_data)
   end 
 
