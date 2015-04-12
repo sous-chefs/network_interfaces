@@ -14,6 +14,7 @@ attribute :onboot,     kind_of: [TrueClass, FalseClass], default: true
 attribute :bootproto,  kind_of: String
 attribute :target,     kind_of: [String, Array]
 attribute :gateway,    kind_of: String
+attribute :gateway6,   kind_of: String
 attribute :metric,     kind_of: Integer
 attribute :mtu,        kind_of: Integer
 attribute :mask,       kind_of: String
