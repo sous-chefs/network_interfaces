@@ -12,7 +12,7 @@ attribute :bond_mode,  kind_of: String
 attribute :vlan_dev,   kind_of: String
 attribute :onboot,     kind_of: [TrueClass, FalseClass], default: true
 attribute :bootproto,  kind_of: String
-attribute :target,     kind_of: String
+attribute :target,     kind_of: [String, Array]
 attribute :gateway,    kind_of: String
 attribute :metric,     kind_of: Integer
 attribute :mtu,        kind_of: Integer

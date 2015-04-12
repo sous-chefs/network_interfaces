@@ -1,48 +1,50 @@
-<% if @hotplug -%>
-allow-hotplug <%= @device %>
+<% @entries.each do |entry| %>
+<% if entry['hotplug'] -%>
+allow-hotplug <%= entry['device'] %>
 <% end %>
-iface <%= @device %> <%= @family %> <%= @method %>
-<% if @address -%>
-  address <%= @address %>
+iface <%= entry['device'] %> <%= entry['family'] %> <%= entry['type'] %>
+<% if entry['address'] -%>
+  address <%= entry['address'] %>
 <% end %>
-<% if @netmask -%>
-  netmask <%= @netmask %>
+<% if entry['netmask'] -%>
+  netmask <%= entry['netmask'] %>
 <% end %>
-<% if @broadcast -%>
-  broadcast <%= @broadcast %>
+<% if entry['broadcast'] -%>
+  broadcast <%= entry['broadcast'] %>
 <% end %>
-<% if @gateway -%>
-  gateway <%= @gateway %>
+<% if entry['gateway'] -%>
+  gateway <%= entry['gateway'] %>
 <% end %>
-<% if @vlan_dev -%>
-  vlan_raw_device <%= @vlan_dev %>
+<% if entry['vlan_dev'] -%>
+  vlan_raw_device <%= entry['vlan_dev'] %>
 <% end %>
-<% if @bridge_ports -%>
-  bridge_ports<% @bridge_ports.each do |port| %> <%= port %><% end %>
+<% if entry['bridge_ports'] -%>
+  bridge_ports<% entry['bridge_ports'].each do |port| %> <%= port %><% end %>
 <% end %>
-<% unless @bridge_stp.nil? -%>
-  bridge_stp <%= @bridge_stp ? "on" : "off" %>
+<% unless entry['bridge_stp'].nil? -%>
+  bridge_stp <%= entry['bridge_stp'] ? "on" : "off" %>
 <% end %>
-<% if @bond_slaves -%>
-  bond-slaves<% @bond_slaves.each do |iface| %> <%= iface %><% end %>
+<% if entry['bond_slaves'] -%>
+  bond-slaves<% entry['bond_slaves'].each do |iface| %> <%= iface %><% end %>
 <% end %>
-<% if @bond_mode -%>
-  bond-mode <%= @bond_mode %>
+<% if entry['bond_mode'] -%>
+  bond-mode <%= entry['bond_mode'] %>
 <% end %>
-<% if @metric -%>
-  metric <%= @metric %>
+<% if entry['metric'] -%>
+  metric <%= entry['metric'] %>
 <% end %>
-<% if @mtu -%>
-  mtu <%= @mtu %>
+<% if entry['mtu'] -%>
+  mtu <%= entry['mtu'] %>
 <% end %>
-<% @up_down_cmd.each do |order, cmds| -%>
+<% entry['up_down_cmd'].each do |order, cmds| -%>
 <%   cmds.flatten.each do |cmd| -%>
   <%= order %> <%= cmd %>
 <%   end %>
 <% end %>
-<% if @custom %>
-<% @custom.sort_by{ |instruc, command| instruc }.each do |instruc, command| -%>
-        <%= instruc %> <%= command %>
+<% if entry['custom'] %>
+  <% entry['custom'].sort_by{ |instruc, command| instruc }.each do |instruc, command| -%>
+  <%= instruc %> <%= command %>
+  <% end %>
 <% end %>
 <% end %>
 

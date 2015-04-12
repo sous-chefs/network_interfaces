@@ -33,13 +33,18 @@ action :save do
            'static'
          end
 
+  if type == 'static'
+    target = new_resource.target
+    target = [new_resource.target] if new_resource.target.class != Array
+  end
+
   up_down_cmd = {
-    pre_up: Array(Chef::Recipe::NetworkInterfaces.value(:pre_up, new_resource.device, new_resource, node)),
-    up: Array(Chef::Recipe::NetworkInterfaces.value(:up, new_resource.device, new_resource, node)),
-    post_up: Array(Chef::Recipe::NetworkInterfaces.value(:post_up, new_resource.device, new_resource, node)),
-    pre_down: Array(Chef::Recipe::NetworkInterfaces.value(:pre_down, new_resource.device, new_resource, node)),
-    down: Array(Chef::Recipe::NetworkInterfaces.value(:down, new_resource.device, new_resource, node)),
-    post_down: Array(Chef::Recipe::NetworkInterfaces.value(:post_down, new_resource.device, new_resource, node)),
+    'pre_up'    => Array(Chef::Recipe::NetworkInterfaces.value(:pre_up, new_resource.device, new_resource, node)),
+    'up'        => Array(Chef::Recipe::NetworkInterfaces.value(:up, new_resource.device, new_resource, node)),
+    'post_up'   => Array(Chef::Recipe::NetworkInterfaces.value(:post_up, new_resource.device, new_resource, node)),
+    'pre_down'  => Array(Chef::Recipe::NetworkInterfaces.value(:pre_down, new_resource.device, new_resource, node)),
+    'down'      => Array(Chef::Recipe::NetworkInterfaces.value(:down, new_resource.device, new_resource, node)),
+    'post_down' => Array(Chef::Recipe::NetworkInterfaces.value(:post_down, new_resource.device, new_resource, node)),
   }
 
   package 'ifmetric' if Chef::Recipe::NetworkInterfaces.value(:metric, new_resource.device, new_resource, node)
@@ -64,33 +69,39 @@ action :save do
     only_if { Chef::Recipe::NetworkInterfaces.value(:onboot, new_resource.device, new_resource, node) }
   end
 
+  e = []
+  target.each do |t|
+    iface_data = {
+      'device'       => new_resource.device,
+      'type'         => Chef::Recipe::NetworkInterfaces.value(:type,       new_resource.device, new_resource, node) || type,
+      'auto'         => Chef::Recipe::NetworkInterfaces.value(:onboot,     new_resource.device, new_resource, node),
+      'family'       => Chef::Recipe::NetworkInterfaces.value(:family,     new_resource.device, new_resource, node),
+      'address'      => t,
+      'network'      => Chef::Recipe::NetworkInterfaces.value(:network,    new_resource.device, new_resource, node),
+      'netmask'      => Chef::Recipe::NetworkInterfaces.value(:mask,       new_resource.device, new_resource, node),
+      'gateway'      => Chef::Recipe::NetworkInterfaces.value(:gateway,    new_resource.device, new_resource, node),
+      'broadcast'    => Chef::Recipe::NetworkInterfaces.value(:broadcast,  new_resource.device, new_resource, node),
+      'bridge_ports' => Chef::Recipe::NetworkInterfaces.value(:bridge,     new_resource.device, new_resource, node),
+      'bridge_stp'   => Chef::Recipe::NetworkInterfaces.value(:bridge_stp, new_resource.device, new_resource, node),
+      'vlan_dev'     => Chef::Recipe::NetworkInterfaces.value(:vlan_dev,   new_resource.device, new_resource, node),
+      'bond_slaves'  => Chef::Recipe::NetworkInterfaces.value(:bond,       new_resource.device, new_resource, node),
+      'bond_mode'    => Chef::Recipe::NetworkInterfaces.value(:bond_mode,  new_resource.device, new_resource, node),
+      'metric'       => Chef::Recipe::NetworkInterfaces.value(:metric,     new_resource.device, new_resource, node),
+      'mtu'          => Chef::Recipe::NetworkInterfaces.value(:mtu,        new_resource.device, new_resource, node),
+      'up_down_cmd'  => up_down_cmd,
+      'custom'       => Chef::Recipe::NetworkInterfaces.value(:custom, new_resource.device, new_resource, node),
+      'hotplug'      => Chef::Recipe::NetworkInterfaces.value(:hotplug, new_resource.device, new_resource, node),
+    }
+    e.push(iface_data)
+  end
+
   template "/etc/network/interfaces.d/#{new_resource.filename}" do
     cookbook 'network_interfaces'
     source 'interfaces.erb'
     owner 'root'
     group 'root'
     mode '0644'
-    variables(
-      device:       new_resource.device,
-      type:       Chef::Recipe::NetworkInterfaces.value(:type,         new_resource.device, new_resource, node) || type,
-      auto:         Chef::Recipe::NetworkInterfaces.value(:onboot,     new_resource.device, new_resource, node),
-      family:       Chef::Recipe::NetworkInterfaces.value(:family,     new_resource.device, new_resource, node),
-      address:      Chef::Recipe::NetworkInterfaces.value(:target,     new_resource.device, new_resource, node),
-      network:      Chef::Recipe::NetworkInterfaces.value(:network,    new_resource.device, new_resource, node),
-      netmask:      Chef::Recipe::NetworkInterfaces.value(:mask,       new_resource.device, new_resource, node),
-      gateway:      Chef::Recipe::NetworkInterfaces.value(:gateway,    new_resource.device, new_resource, node),
-      broadcast:    Chef::Recipe::NetworkInterfaces.value(:broadcast,  new_resource.device, new_resource, node),
-      bridge_ports: Chef::Recipe::NetworkInterfaces.value(:bridge,     new_resource.device, new_resource, node),
-      bridge_stp:   Chef::Recipe::NetworkInterfaces.value(:bridge_stp, new_resource.device, new_resource, node),
-      vlan_dev:     Chef::Recipe::NetworkInterfaces.value(:vlan_dev,   new_resource.device, new_resource, node),
-      bond_slaves:  Chef::Recipe::NetworkInterfaces.value(:bond,       new_resource.device, new_resource, node),
-      bond_mode:    Chef::Recipe::NetworkInterfaces.value(:bond_mode,  new_resource.device, new_resource, node),
-      metric:       Chef::Recipe::NetworkInterfaces.value(:metric,     new_resource.device, new_resource, node),
-      mtu:          Chef::Recipe::NetworkInterfaces.value(:mtu,        new_resource.device, new_resource, node),
-      up_down_cmd: up_down_cmd,
-      custom:       Chef::Recipe::NetworkInterfaces.value(:custom, new_resource.device, new_resource, node),
-      hotplug:      Chef::Recipe::NetworkInterfaces.value(:hotplug, new_resource.device, new_resource, node)
-    )
+    variables entries: e
     notifies :run, "execute[if_up #{new_resource.name}]", :immediately
   end
 end
