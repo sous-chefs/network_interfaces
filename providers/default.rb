@@ -72,44 +72,48 @@ action :save do
   e = []
   seen_v4 = false
   seen_v6 = false
+  target = [''] if target.nil?
 
   target.each_with_index do |t, i|
-    if t.include? '/'
-      # Address includes netmask in CIDR format
-      netmask = t.split('/')[1]
-      t = t.split('/')[0]
-    else
-      netmask = Chef::Recipe::NetworkInterfaces.value(:mask, new_resource.device, new_resource, node)
-    end
-
-    if t.include? ':'
-      # IPv6
-      family = 'inet6'
-    else
-      # IPv4
-      family = 'inet'
-      if !netmask.include? '.'
-        # Netmask specified in CIDR format
-        netmask = IPAddr.new('255.255.255.255').mask(netmask).to_s
-      end
-    end
-
     iface_data = {
-      'type'    => type,
-      'family'  => family,
-      'device'  => new_resource.device,
-      'address' => t,
-      'netmask' => netmask,
+      'type'   => type,
+      'device' => new_resource.device,
     }
 
-    if !seen_v6 and family == 'inet6'
-      iface_data['gateway'] = Chef::Recipe::NetworkInterfaces.value(:gateway6, new_resource.device, new_resource, node)
-      seen_v6 = true
-    end
+    if type == 'static'
+      if t.include? '/'
+        # Address includes netmask in CIDR format
+        netmask = t.split('/')[1]
+        t = t.split('/')[0]
+      else
+        netmask = Chef::Recipe::NetworkInterfaces.value(:mask, new_resource.device, new_resource, node)
+      end
 
-    if !seen_v4 and family == 'inet'
-      iface_data['gateway'] = Chef::Recipe::NetworkInterfaces.value(:gateway, new_resource.device, new_resource, node)
-      seen_v4 = true
+      if t.include? ':'
+        # IPv6
+        family = 'inet6'
+      else
+        # IPv4
+        family = 'inet'
+        if !netmask.include? '.'
+          # Netmask specified in CIDR format
+          netmask = IPAddr.new('255.255.255.255').mask(netmask).to_s
+        end
+      end
+
+      iface_data['address'] = t
+      iface_data['netmask'] = netmask
+      iface_data['family'] = family
+
+      if !seen_v6 and family == 'inet6'
+        iface_data['gateway'] = Chef::Recipe::NetworkInterfaces.value(:gateway6, new_resource.device, new_resource, node)
+        seen_v6 = true
+      end
+
+      if !seen_v4 and family == 'inet'
+        iface_data['gateway'] = Chef::Recipe::NetworkInterfaces.value(:gateway, new_resource.device, new_resource, node)
+        seen_v4 = true
+      end
     end
 
     if i == 0
