@@ -80,6 +80,8 @@ action :save do
       'device' => new_resource.device,
     }
 
+    family = 'inet' # Default interface family for non-static interfaces should be inet
+
     if type == 'static'
       if t.include? '/'
         # Address includes netmask in CIDR format
@@ -94,7 +96,6 @@ action :save do
         family = 'inet6'
       else
         # IPv4
-        family = 'inet'
         if !netmask.include? '.'
           # Netmask specified in CIDR format
           netmask = IPAddr.new('255.255.255.255').mask(netmask).to_s
