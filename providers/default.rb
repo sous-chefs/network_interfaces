@@ -104,7 +104,6 @@ action :save do
 
       iface_data['address'] = t
       iface_data['netmask'] = netmask
-      iface_data['family'] = family
 
       if !seen_v6 and family == 'inet6'
         iface_data['gateway'] = Chef::Recipe::NetworkInterfaces.value(:gateway6, new_resource.device, new_resource, node)
@@ -116,6 +115,8 @@ action :save do
         seen_v4 = true
       end
     end
+
+    iface_data['family'] = family
 
     if i == 0
       # We need the whole interface description only at the first address entry
