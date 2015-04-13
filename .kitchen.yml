@@ -8,8 +8,18 @@ provisioner:
 
 platforms:
   - name: ubuntu-12.04
-  - name: debian-6.0.8
+    driver_config:
+      network:
+      - ["private_network", {ip: "192.168.168.168", auto_config: false}]
+#  - name: debian-6.0.8
+#    driver_config:
+#      box: chef/debian-6.0.8
+  - name: debian-7.8
+    driver_config:
+      box: chef/debian-7.8 
+      network:
+      - ["private_network", {ip: "192.168.168.168", auto_config: false}]
 
 suites:
   - name: default
-    run_list: network_interfaces::default
+    run_list: network_interfaces::test
