@@ -29,6 +29,14 @@ legacy_debian = ((platform?('debian') &&
   (platform?('ubuntu') &&
     node['platform_version'].to_f <= 11.04))
 
+directory "/var/chef/templates/interfaces" do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+  recursive true
+end
+
 ruby_block 'Merge interfaces' do
   block do
     File.open('/etc/network/interfaces', 'w') do |ifaces|

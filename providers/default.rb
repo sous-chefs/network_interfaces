@@ -35,19 +35,30 @@ action :save do
   package 'bridge-utils' if new_resource.bridge
 
   if_up = execute "if_up #{new_resource.name}" do
-    command "ifdown #{new_resource.device} " \
-      "-i /etc/network/interfaces.d/#{new_resource.device} ; " \
-      "ifup #{new_resource.device} " \
-      "-i /etc/network/interfaces.d/#{new_resource.device}"
-    only_if "ifdown -n #{new_resource.device} " \
-      "-i /etc/network/interfaces.d/#{new_resource.device} ; " \
-      "ifup -n #{new_resource.device} " \
-      "-i /etc/network/interfaces.d/#{new_resource.device}"
+    command "ifup #{new_resource.device}  -i /etc/network/interfaces.d/#{new_resource.device}"
+    only_if "ifup -n #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
     action :nothing
   end
 
-  template "/etc/network/interfaces.d/#{new_resource.device}" do
-    cookbook 'network_interfaces'
+  if_down = execute "if_down #{new_resource.name}" do
+    command "ifdown #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
+    only_if "ifdown -n #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
+    action :nothing
+  end
+
+  ruby_block "compare config and template" do
+    block do
+      require 'fileutils'
+      FileUtils.touch "etc/network/interfaces.d/#{new_resource.device}"
+      unless FileUtils.compare_file("/var/chef/templates/interfaces/#{new_resource.device}.erb", "/etc/network/interfaces.d/#{new_resource.device}")
+        notifies :run, resources(:execute => "if_down #{new_resource.name}"), :immediately
+      end
+    end
+    action :nothing
+  end
+
+  template "/var/chef/templates/interfaces/#{new_resource.device}.erb" do
+    cookbook "network_interfaces"
     source 'interfaces.erb'
     owner 'root'
     group 'root'
@@ -77,6 +88,15 @@ action :save do
       post_down:    Chef::Recipe::NetworkInterfaces.value(:post_down,  new_resource.device, new_resource, node),
       custom:       Chef::Recipe::NetworkInterfaces.value(:custom,     new_resource.device, new_resource, node)
     )
+    notifies :create, 'ruby_block[compare config and template]', :immediately
+  end
+
+  template "/etc/network/interfaces.d/#{new_resource.device}" do
+    local true
+    source "/var/chef/templates/interfaces/#{new_resource.device}.erb"
+    owner 'root'
+    group 'root'
+    mode '0644'
     notifies :run, "execute[if_up #{new_resource.name}]", :immediately
     notifies :create, 'ruby_block[Merge interfaces]', :delayed
   end
