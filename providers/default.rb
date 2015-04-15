@@ -34,24 +34,24 @@ action :save do
 
   package 'bridge-utils' if new_resource.bridge
 
-  if_up = execute "if_up #{new_resource.name}" do
+  if_up = execute "if_up #{new_resource.device}" do
     command "ifup #{new_resource.device}  -i /etc/network/interfaces.d/#{new_resource.device}"
     only_if "ifup -n #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
     action :nothing
   end
 
-  if_down = execute "if_down #{new_resource.name}" do
+  if_down = execute "if_down #{new_resource.device}" do
     command "ifdown #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
     only_if "ifdown -n #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
     action :nothing
   end
 
-  ruby_block "compare config and template" do
+  cmp = ruby_block "compare config and template #{new_resource.device}" do
     block do
       require 'fileutils'
       FileUtils.touch "etc/network/interfaces.d/#{new_resource.device}"
       unless FileUtils.compare_file("/var/chef/templates/interfaces/#{new_resource.device}.erb", "/etc/network/interfaces.d/#{new_resource.device}")
-        notifies :run, resources(:execute => "if_down #{new_resource.name}"), :immediately
+        notifies :run, resources(:execute => "if_down #{new_resource.device}"), :immediately
       end
     end
     action :nothing
@@ -88,7 +88,7 @@ action :save do
       post_down:    Chef::Recipe::NetworkInterfaces.value(:post_down,  new_resource.device, new_resource, node),
       custom:       Chef::Recipe::NetworkInterfaces.value(:custom,     new_resource.device, new_resource, node)
     )
-    notifies :create, 'ruby_block[compare config and template]', :immediately
+    notifies :create, "ruby_block[compare config and template #{new_resource.device}]", :immediately
   end
 
   template "/etc/network/interfaces.d/#{new_resource.device}" do
@@ -97,7 +97,7 @@ action :save do
     owner 'root'
     group 'root'
     mode '0644'
-    notifies :run, "execute[if_up #{new_resource.name}]", :immediately
+    notifies :run, "execute[if_up #{new_resource.device}]", :immediately
     notifies :create, 'ruby_block[Merge interfaces]', :delayed
   end
 
@@ -105,14 +105,14 @@ action :save do
 end
 
 action :remove do
-  if_down = execute "if_down #{new_resource.name}" do
+  if_down = execute "if_down #{new_resource.device}" do
     command "ifdown #{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)} -i /etc/network/interfaces.d/#{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)}"
     only_if "ifdown -n #{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)} -i /etc/network/interfaces.d/#{Chef::Recipe::NetworkInterfaces.value(:device, new_resource.device, new_resource, node)}"
   end
 
   file "/etc/network/interfaces.d/#{new_resource.device}" do
     action :delete
-    notifies :run, "execute[if_down #{new_resource.name}]", :immediately
+    notifies :run, "execute[if_down #{new_resource.device}]", :immediately
     notifies :create, 'ruby_block[Merge interfaces]', :delayed
   end
 
