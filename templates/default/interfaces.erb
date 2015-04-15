@@ -35,23 +35,23 @@ iface <%= @device %> inet <%= @type %>
 <% if @mtu -%>
   mtu <%= @mtu %>
 <% end %>
-<% if @pre_up -%>
-  pre-up <%= @pre_up %>
+<% @pre_up.each do |x| -%>
+  pre-up <%= x %>
 <% end %>
-<% if @up -%>
-        up <%= @up %>
+<% @up.each do |x| -%>
+  up <%= x %>
 <% end %>
-<% if @post_up -%>
-        post-up <%= @post_up %>
+<% @post_up.each do |x| -%>
+  post-up <%= x %>
 <% end %>
-<% if @pre_down -%>
-        pre-down <%= @pre_down %>
+<% @pre_down.each do |x| -%>
+  pre-down <%= x %>
 <% end %>
-<% if @down -%>
-        down <%= @down %>
+<% @down.each do |x| -%>
+  down <%= x %>
 <% end %>
-<% if @post_down -%>
-        post-down <%= @post_down %>
+<% @post_down.each do |x| -%>
+  post-down <%= x %>
 <% end %>
 <% if @custom %>
 <% @custom.sort_by{ |instruc, command| instruc }.each do |instruc, command| -%>

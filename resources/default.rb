@@ -20,10 +20,10 @@ attribute :mtu,        kind_of: Integer
 attribute :mask,       kind_of: String
 attribute :network,    kind_of: String
 attribute :broadcast,  kind_of: String
-attribute :pre_up,     kind_of: String
-attribute :up,         kind_of: String
-attribute :post_up,    kind_of: String
-attribute :pre_down,   kind_of: String
-attribute :down,       kind_of: String
-attribute :post_down,  kind_of: String
+attribute :pre_up,     kind_of: Array, default: []
+attribute :up,         kind_of: Array, default: []
+attribute :post_up,    kind_of: Array, default: []
+attribute :pre_down,   kind_of: Array, default: []
+attribute :down,       kind_of: Array, default: []
+attribute :post_down,  kind_of: Array, default: []
 attribute :custom,     kind_of: Hash
