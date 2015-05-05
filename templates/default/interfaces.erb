@@ -35,22 +35,22 @@ iface <%= @device %> inet <%= @type %>
 <% if @mtu -%>
   mtu <%= @mtu %>
 <% end %>
-<% @pre_up.each do |x| -%>
+<% Array(@pre_up).each do |x| -%>
   pre-up <%= x %>
 <% end %>
-<% @up.each do |x| -%>
+<% Array(@up).each do |x| -%>
   up <%= x %>
 <% end %>
-<% @post_up.each do |x| -%>
+<% Array(@post_up).each do |x| -%>
   post-up <%= x %>
 <% end %>
-<% @pre_down.each do |x| -%>
+<% Array(@pre_down).each do |x| -%>
   pre-down <%= x %>
 <% end %>
-<% @down.each do |x| -%>
+<% Array(@down).each do |x| -%>
   down <%= x %>
 <% end %>
-<% @post_down.each do |x| -%>
+<% Array(@post_down).each do |x| -%>
   post-down <%= x %>
 <% end %>
 <% if @custom %>
