@@ -1,7 +1,7 @@
 <% if @auto -%>
 auto <%= @device %>
 <% end %>
-iface <%= @device %> inet <%= @type %>
+iface <%= @device %> <%= @family %> <%= @type %>
 <% if @address -%>
   address <%= @address %>
 <% end %>
