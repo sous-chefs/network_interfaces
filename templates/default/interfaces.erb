@@ -35,23 +35,10 @@ iface <%= @device %> <%= @family %> <%= @method %>
 <% if @mtu -%>
   mtu <%= @mtu %>
 <% end %>
-<% if @pre_up -%>
-  pre-up <%= @pre_up %>
-<% end %>
-<% if @up -%>
-        up <%= @up %>
-<% end %>
-<% if @post_up -%>
-        post-up <%= @post_up %>
-<% end %>
-<% if @pre_down -%>
-        pre-down <%= @pre_down %>
-<% end %>
-<% if @down -%>
-        down <%= @down %>
-<% end %>
-<% if @post_down -%>
-        post-down <%= @post_down %>
+<% @up_down_cmd.each do |order, cmds| -%>
+<%   cmds.flatten.each do |cmd| -%>
+  <%= order %> <%= cmd %>
+<%   end %>
 <% end %>
 <% if @custom %>
 <% @custom.sort_by{ |instruc, command| instruc }.each do |instruc, command| -%>
