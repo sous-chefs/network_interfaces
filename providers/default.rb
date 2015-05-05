@@ -54,8 +54,8 @@ action :save do
     group 'root'
     mode '0644'
     variables(
-      type:         type,
       device:       new_resource.device,
+      type:       Chef::Recipe::NetworkInterfaces.value(:type,         new_resource.device, new_resource, node) || type,
       auto:         Chef::Recipe::NetworkInterfaces.value(:onboot,     new_resource.device, new_resource, node),
       family:       Chef::Recipe::NetworkInterfaces.value(:family,     new_resource.device, new_resource, node),
       address:      Chef::Recipe::NetworkInterfaces.value(:target,     new_resource.device, new_resource, node),

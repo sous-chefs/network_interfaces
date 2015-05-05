@@ -7,6 +7,7 @@ actions :save, :remove
 
 attribute :device,     kind_of: String, name_attribute: true
 attribute :family,     kind_of: String, default: 'inet'
+attribute :type,       kind_of: String
 attribute :bridge,     kind_of: [TrueClass, FalseClass, Array]
 attribute :bridge_stp, kind_of: [TrueClass, FalseClass]
 attribute :bond,       kind_of: [TrueClass, FalseClass, Array]
