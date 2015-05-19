@@ -43,5 +43,5 @@ platforms:
 suites:
 - name: default
   run_list:
-    - recipe[network_interfaces::default]
-  attributes:
+  - recipe[network_interfaces]
+  - recipe[network_interfaces_test]
