@@ -1,9 +1,5 @@
-def initialize(*args)
-  super
-  @action = :save
-end
-
 actions :save, :remove
+default_action :save
 
 attribute :device,     kind_of: String, name_attribute: true
 attribute :filename,   kind_of: String, regex: /^\S*$/, name_attribute: true
