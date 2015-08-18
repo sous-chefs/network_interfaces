@@ -92,7 +92,8 @@ action :save do
       metric:       Chef::Recipe::NetworkInterfaces.value(:metric,     new_resource.device, new_resource, node),
       mtu:          Chef::Recipe::NetworkInterfaces.value(:mtu,        new_resource.device, new_resource, node),
       up_down_cmd: up_down_cmd,
-      custom:       Chef::Recipe::NetworkInterfaces.value(:custom, new_resource.device, new_resource, node)
+      custom:       Chef::Recipe::NetworkInterfaces.value(:custom, new_resource.device, new_resource, node),
+      hotplug:      Chef::Recipe::NetworkInterfaces.value(:hotplug, new_resource.device, new_resource, node)
     )
     notifies :run, "execute[if_up #{new_resource.name}]", :immediately
   end

@@ -26,3 +26,4 @@ attribute :pre_down,   kind_of: [String, Array]
 attribute :down,       kind_of: [String, Array]
 attribute :post_down,  kind_of: [String, Array]
 attribute :custom,     kind_of: Hash
+attribute :hotplug,    kind_of: [TrueClass, FalseClass], default: false
