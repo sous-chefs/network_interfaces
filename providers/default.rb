@@ -62,7 +62,8 @@ action :save do
       pre_down:     Chef::Recipe::NetworkInterfaces.value(:pre_down,   new_resource.device, new_resource, node),
       down:         Chef::Recipe::NetworkInterfaces.value(:down,       new_resource.device, new_resource, node),
       post_down:    Chef::Recipe::NetworkInterfaces.value(:post_down,  new_resource.device, new_resource, node),
-      custom:       Chef::Recipe::NetworkInterfaces.value(:custom,     new_resource.device, new_resource, node)
+      custom:       Chef::Recipe::NetworkInterfaces.value(:custom,     new_resource.device, new_resource, node),
+      hotplug:      Chef::Recipe::NetworkInterfaces.value(:hotplug,    new_resource.device, new_resource, node)
     )
     notifies :run, "execute[if_up #{new_resource.name}]", :immediately
   end
