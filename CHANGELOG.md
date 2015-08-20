@@ -1,11 +1,15 @@
 network_interface
 =================
 
+# Unreleased:
+
+ - Adding support for the allow-hotplug stanza [https://www.debian.org/doc/manuals/debian-reference/ch05.en.html#_the_basic_syntax_of_etc_network_interfaces] mainly used in Debian.
+
+# Last Release: v1.0.0
+
 v1.0.0 (2014-03-03)
 -------------------
-
-- released version on community
-
+- Released version on community
 
 v1.0.0 (2014-02-24=5)
 -------------------
@@ -35,7 +39,6 @@ v0.2.2 (2014-02-07)
 -------------------
 - fix foodcritic
 - fix directory permissions
-
 
 v0.2.0 (2013-04-04)
 -------------------

@@ -1,6 +1,9 @@
 <% if @auto -%>
 auto <%= @device %>
 <% end %>
+<% if @hotplug -%>
+allow-hotplug <%= @device %>
+<% end %>
 iface <%= @device %> inet <%= @type %>
 <% if @address -%>
   address <%= @address %>
