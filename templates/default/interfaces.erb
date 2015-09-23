@@ -36,7 +36,13 @@ iface <%= @device %> <%= @family %> <%= @method %>
   mtu <%= @mtu %>
 <% end %>
 <% if @pre_up -%>
-  pre-up <%= @pre_up %>
+  <% if @pre_up.kind_of?(Array) -%>
+    <% @pre_up.flatten.each do |u| -%>
+      pre_up <%= u %>
+    <% end %>
+  <% else -%>
+      pre-up <%= @pre_up %>
+  <% end %>
 <% end %>
 <% if @up -%>
   <% if @up.kind_of?(Array) -%>
@@ -48,27 +54,43 @@ iface <%= @device %> <%= @family %> <%= @method %>
   <% end %>
 <% end %>
 <% if @post_up -%>
-        post-up <%= @post_up %>
+  <% if @post_up.kind_of?(Array) -%>
+    <% @post_up.flatten.each do |u| -%>
+      post_up <%= u %>
+    <% end %>
+  <% else -%>
+      post_up <%= @post_up %>
+  <% end %>
 <% end %>
 <% if @pre_down -%>
-        pre-down <%= @pre_down %>
+  <% if @pre_down.kind_of?(Array) -%>
+    <% @pre_down.flatten.each do |u| -%>
+      pre_down <%= u %>
+    <% end %>
+  <% else -%>
+      pre-down <%= @pre_down %>
+  <% end %>
 <% end %>
 <% if @down -%>
   <% if @down.kind_of?(Array) -%>
-    <% @down.flatten.each do |d| -%>
-      down <%= d %>
+    <% @down.flatten.each do |u| -%>
+      down <%= u %>
     <% end %>
   <% else -%>
       down <%= @down %>
   <% end %>
 <% end %>
 <% if @post_down -%>
-        post-down <%= @post_down %>
+  <% if @post_down.kind_of?(Array) -%>
+    <% @post_down.flatten.each do |u| -%>
+      post_down <%= u %>
+    <% end %>
+  <% else -%>
+      post-down <%= @post_down %>
+  <% end %>
 <% end %>
 <% if @custom %>
 <% @custom.sort_by{ |instruc, command| instruc }.each do |instruc, command| -%>
         <%= instruc %> <%= command %>
 <% end %>
 <% end %>
-
-
