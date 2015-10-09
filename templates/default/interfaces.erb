@@ -38,7 +38,7 @@ iface <%= @device %> <%= @family %> <%= @method %>
 <% if @pre_up -%>
   <% if @pre_up.kind_of?(Array) -%>
     <% @pre_up.flatten.each do |u| -%>
-      pre_up <%= u %>
+      pre-up <%= u %>
     <% end %>
   <% else -%>
       pre-up <%= @pre_up %>
@@ -56,16 +56,16 @@ iface <%= @device %> <%= @family %> <%= @method %>
 <% if @post_up -%>
   <% if @post_up.kind_of?(Array) -%>
     <% @post_up.flatten.each do |u| -%>
-      post_up <%= u %>
+      post-up <%= u %>
     <% end %>
   <% else -%>
-      post_up <%= @post_up %>
+      post-up <%= @post_up %>
   <% end %>
 <% end %>
 <% if @pre_down -%>
   <% if @pre_down.kind_of?(Array) -%>
     <% @pre_down.flatten.each do |u| -%>
-      pre_down <%= u %>
+      pre-down <%= u %>
     <% end %>
   <% else -%>
       pre-down <%= @pre_down %>
@@ -83,7 +83,7 @@ iface <%= @device %> <%= @family %> <%= @method %>
 <% if @post_down -%>
   <% if @post_down.kind_of?(Array) -%>
     <% @post_down.flatten.each do |u| -%>
-      post_down <%= u %>
+      post-down <%= u %>
     <% end %>
   <% else -%>
       post-down <%= @post_down %>
