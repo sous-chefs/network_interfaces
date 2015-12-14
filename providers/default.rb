@@ -21,6 +21,7 @@ action :save do
     modules 'bonding'
     new_resource.bond.each do |bond_slave|
       `ip address flush dev #{bond_slave}`
+      `dhclient -r -pf /run/dhclient.#{bond_slave}.pid && rm -f /run/dhclient.#{bond_slave}.pid` if ::File.exist?("/run/dhclient.#{bond_slave}.pid")
     end
   end
 
@@ -46,10 +47,17 @@ action :save do
     action :nothing
   end
 
+
+  dhclient_stop = execute "dhclient stop on #{new_resource.device}" do
+    command "dhclient -r -pf /run/dhclient.#{new_resource.device}.pid && rm -f /run/dhclient.#{new_resource.device}.pid"
+    only_if { ::File.exist?("/run/dhclient.#{new_resource.device}.pid") }
+    action :nothing
+  end
+
   cmp = ruby_block "compare config and template #{new_resource.device}" do
     block do
       require 'fileutils'
-      FileUtils.touch "etc/network/interfaces.d/#{new_resource.device}"
+      FileUtils.touch "/etc/network/interfaces.d/#{new_resource.device}"
       unless FileUtils.compare_file("/var/chef/templates/interfaces/#{new_resource.device}.erb", "/etc/network/interfaces.d/#{new_resource.device}")
         notifies :run, resources(:execute => "if_down #{new_resource.device}"), :immediately
       end
@@ -89,6 +97,7 @@ action :save do
       custom:       Chef::Recipe::NetworkInterfaces.value(:custom,     new_resource.device, new_resource, node)
     )
     notifies :create, "ruby_block[compare config and template #{new_resource.device}]", :immediately
+    notifies :run, "execute[dhclient stop on #{new_resource.device}]", :immediately
   end
 
   template "/etc/network/interfaces.d/#{new_resource.device}" do
