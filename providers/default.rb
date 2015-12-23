@@ -54,12 +54,19 @@ action :save do
     action :nothing
   end
 
+  address_flush = execute "flushing address on #{new_resource.device}" do
+    command "ip address flush dev #{new_resource.device}"
+    ignore_failure true
+    action :nothing
+  end
+
   cmp = ruby_block "compare config and template #{new_resource.device}" do
     block do
       require 'fileutils'
       FileUtils.touch "/etc/network/interfaces.d/#{new_resource.device}"
       unless FileUtils.compare_file("/var/chef/templates/interfaces/#{new_resource.device}.erb", "/etc/network/interfaces.d/#{new_resource.device}")
         notifies :run, resources(:execute => "if_down #{new_resource.device}"), :immediately
+        notifies :run, resources(:execute => "flushing address on #{new_resource.device}"), :immediately
       end
     end
     action :nothing
