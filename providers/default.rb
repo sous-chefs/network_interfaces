@@ -58,6 +58,7 @@ action :save do
     command "ip address flush dev #{new_resource.device}"
     ignore_failure true
     action :nothing
+    not_if { /lo:/.match("#{new_resource.device}")}
   end
 
   cmp = ruby_block "compare config and template #{new_resource.device}" do
