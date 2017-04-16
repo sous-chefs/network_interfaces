@@ -1,5 +1,11 @@
-<% if @auto -%>
+<% if @auto && ! @ovs_type-%>
 auto <%= @device %>
+<% end %>
+<% if @ovs_type == 'OVSBridge' -%>
+allow-ovs <%= @device %>
+<% end %>
+<% if @ovs_type && @ovs_type != 'OVSBridge' -%>
+allow-<%= @ovs_bridge %> <%= @device %>
 <% end %>
 iface <%= @device %> inet <%= @type %>
 <% if @address -%>
@@ -28,6 +34,27 @@ iface <%= @device %> inet <%= @type %>
 <% end %>
 <% if @bond_mode -%>
   bond-mode <%= @bond_mode %>
+<% end %>
+<% if @bond_master -%>
+  bond-master <%= @bond_master %>
+<% end %>
+<% if @bond_primary -%>
+  bond-primary <%= @bond_primary %>
+<% end %>
+<% if @ovs_type -%>
+  ovs_type <%= @ovs_type %>
+<% end %>
+<% if @ovs_bridge -%>
+  ovs_bridge <%= @ovs_bridge %>
+<% end %>
+<% if @ovs_ports -%>
+  ovs_ports <%= @ovs_ports %>
+<% end %>
+<% if @ovs_bonds -%>
+  ovs_bonds <%= @ovs_bonds %>
+<% end %>
+<% if @ovs_options -%>
+  ovs_options <%= @ovs_options %>
 <% end %>
 <% if @metric -%>
   metric <%= @metric %>
