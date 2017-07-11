@@ -8,7 +8,7 @@ action :save do
   end
 
   if new_resource.vlan_dev ||
-     new_resource.device =~ /(eth|bond|wlan)[0-9]+\.[0-9]+/
+     new_resource.device =~ /(en|eth|bond|wlan)[0-9]+\.[0-9]+/
     package 'vlan'
     modules '8021q'
   end
