@@ -52,7 +52,7 @@ file '/etc/network/interfaces' do
     "source /etc/network/interfaces.d/*\n"
   not_if do
     node['network_interfaces']['replace_orig'] ||
-    File.read('/etc/network/interfaces') =~ %r{^source /etc/network/interfaces.d/\*$}
+      new_content =~ %r{^source /etc/network/interfaces.d/\*$}
   end
   action :create
 end
