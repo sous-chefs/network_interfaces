@@ -25,8 +25,8 @@
 node.set['network_interfaces']['order'] = []
 
 if (platform?('debian') && node['platform_version'].to_f < 6.0) ||
-    (platform?('ubuntu') && node['platform_version'].to_f < 10.04)
-  fail "This platform version (#{node['platform_version']}) is not supported " \
+   (platform?('ubuntu') && node['platform_version'].to_f < 10.04)
+  raise "This platform version (#{node['platform_version']}) is not supported " \
     'by this cookbook'
 end
 
@@ -39,19 +39,20 @@ cookbook_file 'interfaces' do
 end
 
 file '/etc/network/interfaces' do
-  if File.exist?('/etc/network/interfaces')
-    new_content = File.read('/etc/network/interfaces')
-  else
-    new_content = "auto lo\n" \
-      "iface lo inet loopback\n" \
-      "\n"
-  end
+  new_content = if File.exist?('/etc/network/interfaces')
+                  File.read('/etc/network/interfaces')
+                else
+                  "auto lo\n" \
+                  "iface lo inet loopback\n" \
+                  "\n"
+                end
+
   content "#{new_content}\n" \
     "# The following was added by the Chef network_interfaces cookbook:\n" \
     "source /etc/network/interfaces.d/*\n"
   not_if do
     node['network_interfaces']['replace_orig'] ||
-    File.read('/etc/network/interfaces') =~ %r{^source /etc/network/interfaces.d/\*$}
+      new_content =~ %r{^source /etc/network/interfaces.d/\*$}
   end
   action :create
 end

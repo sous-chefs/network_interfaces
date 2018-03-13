@@ -1,36 +1,49 @@
 action :save do
+  node.set['network_interfaces']['order'] =
+    (node['network_interfaces']['order'] || []) + [new_resource.device]
 
-  node.set['network_interfaces']['order'] = (node['network_interfaces']['order'] || []) + [new_resource.device]
+  if new_resource.bridge &&
+     new_resource.bridge.class != Array
+    new_resource.bridge = ['none']
+  end
 
-  new_resource.bridge = ['none'] if new_resource.bridge && new_resource.bridge.class != Array
-
-  if new_resource.vlan_dev || new_resource.device =~ /(eth|bond|wlan)[0-9]+\.[0-9]+/
+  if new_resource.vlan_dev ||
+     new_resource.device =~ /(en|eth|bond|wlan)[0-9]+\.[0-9]+/
     package 'vlan'
     modules '8021q'
   end
 
-  new_resource.bond = ['none'] if new_resource.bond && new_resource.bond.class != Array
+  if new_resource.bond &&
+     new_resource.bond.class != Array
+    new_resource.bond = ['none']
+  end
 
   if new_resource.bond
     package 'ifenslave-2.6'
     modules 'bonding'
   end
 
-  if new_resource.bootproto == 'dhcp'
-    type = 'dhcp'
-  elsif !new_resource.target
-    type = 'manual'
-  else
-    type = 'static'
-  end
+  type = if new_resource.bootproto == 'dhcp'
+           'dhcp'
+         elsif !new_resource.target
+           'manual'
+         else
+           'static'
+         end
 
   package 'ifmetric' if Chef::Recipe::NetworkInterfaces.value(:metric, new_resource.device, new_resource, node)
 
   package 'bridge-utils' if new_resource.bridge
 
   if_up = execute "if_up #{new_resource.name}" do
-    command "ifdown #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device} ; ifup #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
-    only_if "ifdown -n #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device} ; ifup -n #{new_resource.device} -i /etc/network/interfaces.d/#{new_resource.device}"
+    command "ifdown #{new_resource.device} " \
+      "-i /etc/network/interfaces.d/#{new_resource.device} ; " \
+      "ifup #{new_resource.device} " \
+      "-i /etc/network/interfaces.d/#{new_resource.device}"
+    only_if "ifdown -n #{new_resource.device} " \
+      "-i /etc/network/interfaces.d/#{new_resource.device} ; " \
+      "ifup -n #{new_resource.device} " \
+      "-i /etc/network/interfaces.d/#{new_resource.device}"
     action :nothing
   end
 
@@ -41,9 +54,9 @@ action :save do
     group 'root'
     mode '0644'
     variables(
-      auto:         Chef::Recipe::NetworkInterfaces.value(:onboot,     new_resource.device, new_resource, node),
       type:         type,
       device:       new_resource.device,
+      auto:         Chef::Recipe::NetworkInterfaces.value(:onboot,     new_resource.device, new_resource, node),
       address:      Chef::Recipe::NetworkInterfaces.value(:target,     new_resource.device, new_resource, node),
       network:      Chef::Recipe::NetworkInterfaces.value(:network,    new_resource.device, new_resource, node),
       netmask:      Chef::Recipe::NetworkInterfaces.value(:mask,       new_resource.device, new_resource, node),
