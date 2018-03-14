@@ -1,11 +1,10 @@
-def initialize(*args)
-  super
-  @action = :save
-end
-
 actions :save, :remove
+default_action :save
 
 attribute :device,     kind_of: String, name_attribute: true
+attribute :filename,   kind_of: String, regex: /^\S*$/, name_attribute: true
+attribute :family,     kind_of: String, default: 'inet'
+attribute :type,       kind_of: String
 attribute :bridge,     kind_of: [TrueClass, FalseClass, Array]
 attribute :bridge_stp, kind_of: [TrueClass, FalseClass]
 attribute :bond,       kind_of: [TrueClass, FalseClass, Array]
@@ -20,10 +19,10 @@ attribute :mtu,        kind_of: Integer
 attribute :mask,       kind_of: String
 attribute :network,    kind_of: String
 attribute :broadcast,  kind_of: String
-attribute :pre_up,     kind_of: String
-attribute :up,         kind_of: String
-attribute :post_up,    kind_of: String
-attribute :pre_down,   kind_of: String
-attribute :down,       kind_of: String
-attribute :post_down,  kind_of: String
+attribute :pre_up,     kind_of: [String, Array]
+attribute :up,         kind_of: [String, Array]
+attribute :post_up,    kind_of: [String, Array]
+attribute :pre_down,   kind_of: [String, Array]
+attribute :down,       kind_of: [String, Array]
+attribute :post_down,  kind_of: [String, Array]
 attribute :custom,     kind_of: Hash
