@@ -1,12 +1,12 @@
 #
-# Cookbook Name:: network_interfaces
+# Cookbook:: network_interfaces
 # Recipe:: default
 #
 # Author:: Stanislav Bogatyrev <realloc@realloc.spb.ru>
 # Author:: Guilhem Lettron <guilhem.lettron@youscribe.com>
 #
-# Copyright 2012, Clodo.ru
-# Copyright 2012, Societe Publica.
+# Copyright:: 2012, Clodo.ru
+# Copyright:: 2012, Societe Publica.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 #
 
 # Reset ifaces order on each run
-node.set['network_interfaces']['order'] = []
+node.normal['network_interfaces']['order'] = []
 
 if (platform?('debian') && node['platform_version'].to_f < 6.0) ||
    (platform?('ubuntu') && node['platform_version'].to_f < 10.04)
