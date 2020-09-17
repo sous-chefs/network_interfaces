@@ -1,11 +1,7 @@
-def whyrun_supported?
-  true
-end
 
-use_inline_resources if defined?(use_inline_resources)
 
 action :save do
-  node.set['network_interfaces']['order'] =
+  node.normal['network_interfaces']['order'] =
     (node['network_interfaces']['order'] || []) + [new_resource.device]
 
   if new_resource.bridge &&
