@@ -1,5 +1,18 @@
 network_interface
 =================
+## Unreleased
+
+- resolved cookstyle error: Berksfile:1:1 refactor: `ChefModernize/LegacyBerksfileSource`
+- resolved cookstyle error: libraries/matchers.rb:1:1 refactor: `ChefModernize/DefinesChefSpecMatchers`
+- resolved cookstyle error: metadata.rb:6:1 refactor: `ChefRedundantCode/LongDescriptionMetadata`
+- resolved cookstyle error: providers/default.rb:1:1 refactor: `ChefModernize/WhyRunSupportedTrue`
+- resolved cookstyle error: providers/default.rb:5:1 warning: `ChefDeprecations/UseInlineResourcesDefined`
+- resolved cookstyle error: providers/default.rb:8:8 warning: `ChefDeprecations/NodeSet`
+- resolved cookstyle error: recipes/default.rb:2:1 refactor: `ChefStyle/CommentFormat`
+- resolved cookstyle error: recipes/default.rb:8:1 refactor: `ChefStyle/CommentFormat`
+- resolved cookstyle error: recipes/default.rb:9:1 refactor: `ChefStyle/CommentFormat`
+- resolved cookstyle error: recipes/default.rb:25:6 warning: `ChefDeprecations/NodeSet`
+
 
 # Unreleased:
 
