@@ -2,6 +2,8 @@ network_interface
 =================
 ## Unreleased
 
+- Add IPv6 support (#31)
+- Add multiaddress support (#31)
 - resolved cookstyle error: Berksfile:1:1 refactor: `ChefModernize/LegacyBerksfileSource`
 - resolved cookstyle error: libraries/matchers.rb:1:1 refactor: `ChefModernize/DefinesChefSpecMatchers`
 - resolved cookstyle error: metadata.rb:6:1 refactor: `ChefRedundantCode/LongDescriptionMetadata`
