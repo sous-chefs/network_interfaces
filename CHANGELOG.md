@@ -1,6 +1,6 @@
 network_interface
 =================
-## Unreleased
+## 1.0.2 - *2021-06-01*
 
 - resolved cookstyle error: Berksfile:1:1 refactor: `ChefModernize/LegacyBerksfileSource`
 - resolved cookstyle error: libraries/matchers.rb:1:1 refactor: `ChefModernize/DefinesChefSpecMatchers`
@@ -14,7 +14,7 @@ network_interface
 - resolved cookstyle error: recipes/default.rb:25:6 warning: `ChefDeprecations/NodeSet`
 
 
-# Unreleased:
+# 1.0.2 - *2021-06-01*:
 
 - Add custom matchers for `network_interface` LWRP (#21)
 - Drop very old Debian support (#14)
