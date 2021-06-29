@@ -1,7 +1,7 @@
 <% if @hotplug -%>
 allow-hotplug <%= @device %>
 <% end %>
-iface <%= @device %> <%= @family %> <%= @method %>
+iface <%= @device %> <%= @family %> <%= @type %>
 <% if @address -%>
   address <%= @address %>
 <% end %>

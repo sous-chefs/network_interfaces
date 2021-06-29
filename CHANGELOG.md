@@ -1,5 +1,9 @@
 # network_interface
 
+## Unreleased
+
+- Fix typo between `interfaces.erb` template and `network_interfaces` resource property (h/t @Fuuzetsu)
+
 ## 1.0.2 - *2021-06-01*
 
 - resolved cookstyle error: Berksfile:1:1 refactor: `ChefModernize/LegacyBerksfileSource`
