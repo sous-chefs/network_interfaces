@@ -12,6 +12,7 @@
 - Update ChefSpec syntax per current standards
 - Add EditorConfig for Markdown files
 - Upgrade to `line` v4.x
+- Refactor to Chef 12 resource
 
 ## 1.0.2 - *2021-06-01*
 
