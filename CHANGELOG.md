@@ -2,9 +2,10 @@
 
 ## Unreleased
 
+- Fix typo between `interfaces.erb` template and `network_interfaces` resource property (h/t @Fuuzetsu)
+
 ## 2.0.0 - *2021-06-30*
 
-- Fix typo between `interfaces.erb` template and `network_interfaces` resource property (h/t @Fuuzetsu)
 - Drop Travis CI in favor of GitHub Actions
 - Drop support for Debian < 8
 - Drop support for Ubuntu < 18.04
