@@ -12,6 +12,7 @@ network_interface
 - resolved cookstyle error: recipes/default.rb:8:1 refactor: `ChefStyle/CommentFormat`
 - resolved cookstyle error: recipes/default.rb:9:1 refactor: `ChefStyle/CommentFormat`
 - resolved cookstyle error: recipes/default.rb:25:6 warning: `ChefDeprecations/NodeSet`
+- Add `network_interfaces_eni` resource (#32)
 
 
 # 1.0.2 - *2021-06-01*:

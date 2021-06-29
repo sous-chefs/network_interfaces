@@ -12,5 +12,7 @@ source_url 'https://github.com/redguide/network_interfaces'
 supports 'ubuntu', '>= 14.04'
 supports 'debian', '>= 8.0'
 
+gem 'aws-sdk', '~> 3.0'
+
 depends 'modules', '>= 0.1.2'
 depends 'line', '~> 0.6.1'
