@@ -11,6 +11,7 @@
 - Update metadata & authors to reflect current maintainers & recent authors
 - Update ChefSpec syntax per current standards
 - Add EditorConfig for Markdown files
+- Upgrade to `line` v4.x
 
 ## 1.0.2 - *2021-06-01*
 

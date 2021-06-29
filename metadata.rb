@@ -13,4 +13,4 @@ supports 'ubuntu', '= 18.04'
 supports 'debian', '>= 9.0'
 
 depends 'modules', '>= 0.1.2'
-depends 'line', '~> 0.6.1'
+depends 'line', '~> 4.0'
