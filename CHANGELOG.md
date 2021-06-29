@@ -3,6 +3,14 @@
 ## Unreleased
 
 - Fix typo between `interfaces.erb` template and `network_interfaces` resource property (h/t @Fuuzetsu)
+- Drop Travis CI in favor of GitHub Actions
+- Drop support for Debian < 8
+- Drop support for Ubuntu < 18.04
+    - Ubuntu 20.04 is TBD on support b/c of changes to how `/etc/network` works
+- Standardize on current filenames for support files
+- Update metadata & authors to reflect current maintainers & recent authors
+- Update ChefSpec syntax per current standards
+- Add EditorConfig for Markdown files
 
 ## 1.0.2 - *2021-06-01*
 

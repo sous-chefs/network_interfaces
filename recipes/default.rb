@@ -4,6 +4,8 @@
 #
 # Author:: Stanislav Bogatyrev <realloc@realloc.spb.ru>
 # Author:: Guilhem Lettron <guilhem.lettron@youscribe.com>
+# Author:: Eric Herot <eric.herot@gmail.com>
+# Author:: Jeff Byrnes <thejeffbyrnes@gmail.com>
 #
 # Copyright:: 2012, Clodo.ru
 # Copyright:: 2012, Societe Publica.
@@ -24,8 +26,8 @@
 # Reset ifaces order on each run
 node.normal['network_interfaces']['order'] = []
 
-if (platform?('debian') && node['platform_version'].to_f < 6.0) ||
-   (platform?('ubuntu') && node['platform_version'].to_f < 10.04)
+if (platform?('debian') && node['platform_version'].to_f < 8.0) ||
+   (platform?('ubuntu') && node['platform_version'].to_f < 16.04)
   raise "This platform version (#{node['platform_version']}) is not supported " \
     'by this cookbook'
 end
