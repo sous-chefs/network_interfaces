@@ -1,5 +1,7 @@
 # network_interface
 
+## Unreleased
+
 ## 2.0.0 - *2021-06-30*
 
 - Fix typo between `interfaces.erb` template and `network_interfaces` resource property (h/t @Fuuzetsu)
