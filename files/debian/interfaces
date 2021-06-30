@@ -1,8 +1,0 @@
-# This file is maintained by Chef
-# Changes made directly on the host will be overwritten
-
-# The loopback network interface
-auto lo
-iface lo inet loopback
-
-source /etc/network/interfaces.d/*
