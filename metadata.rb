@@ -3,7 +3,7 @@ maintainer       'Sous Chefs'
 maintainer_email 'help@sous-chefs.org'
 license          'Apache-2.0'
 description      'Installs/Configures network on Ubuntu and Debian'
-version          '1.0.2'
+version          '2.0.0'
 chef_version     '>= 15.0'
 
 issues_url 'https://github.com/sous-chefs/network_interfaces/issues'
