@@ -1,6 +1,6 @@
 # network_interface
 
-## Unreleased
+## 2.0.1 - *2021-08-30*
 
 - Standardise files with files in sous-chefs/repo-management
 
