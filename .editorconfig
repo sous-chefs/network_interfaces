@@ -17,9 +17,3 @@ charset = utf-8
 
 # Avoid cookstyle warnings
 trim_trailing_whitespace = true
-
-[*.md]
-indent_size = 4
-
-# Trailing whitespace is meaningful in Markdown
-trim_trailing_whitespace = false
