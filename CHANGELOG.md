@@ -1,6 +1,6 @@
 # network_interface
 
-## Unreleased
+## 2.0.2 - *2022-02-08*
 
 - Remove delivery folder
 
