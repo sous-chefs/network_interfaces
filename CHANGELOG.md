@@ -45,8 +45,8 @@ Standardise files with files in sous-chefs/repo-management
 - Add custom matchers for `network_interface` LWRP (#21)
 - Drop very old Debian support (#14)
 - Refactor linting, syntax checking, and unit testing (#29)
-    + Includes a tweak to work on Ubuntu 16.04
-    + Updates testing to latest two versions of Debian & Ubuntu
+    - Includes a tweak to work on Ubuntu 16.04
+    - Updates testing to latest two versions of Debian & Ubuntu
 - Add features & better errors to LWRP (#30)
 - Add support for the [`allow-hotplug` stanza](https://www.debian.org/doc/manuals/debian-reference/ch05.en.html#_the_basic_syntax_of_etc_network_interfaces) mainly used in Debian.
 
