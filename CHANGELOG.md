@@ -1,5 +1,7 @@
 # network_interface
 
+## Unreleased
+
 ## 2.0.7 - *2025-09-04*
 
 ## 2.0.6 - *2024-12-05*
