@@ -1,5 +1,12 @@
 # network_interface
 
+## [2.0.8](https://github.com/sous-chefs/network_interfaces/compare/2.0.7...v2.0.8) (2025-10-16)
+
+
+### Bug Fixes
+
+* **ci:** Update workflows to use release pipeline ([#57](https://github.com/sous-chefs/network_interfaces/issues/57)) ([2f01104](https://github.com/sous-chefs/network_interfaces/commit/2f0110498a348c6eacd864a535a260439a836498))
+
 ## 2.0.3 - *2023-06-08*
 
 Standardise files with files in sous-chefs/repo-management
