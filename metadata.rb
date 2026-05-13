@@ -14,5 +14,8 @@ source_url 'https://github.com/sous-chefs/network_interfaces'
 supports 'ubuntu', '>= 22.04'
 supports 'debian', '>= 12.0'
 
+gem 'bigdecimal', '= 3.1.1'
+gem 'aws-sdk-ec2', '~> 1.0'
+
 depends 'modules', '>= 0.1.2'
 depends 'line', '~> 4.0'

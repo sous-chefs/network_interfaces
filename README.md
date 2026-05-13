@@ -20,10 +20,16 @@ Provides custom resources for managing `/etc/network/interfaces` on Debian and U
 * line
 * modules
 
+### Gems
+
+* aws-sdk-ec2
+* bigdecimal
+
 ## Resources
 
 * [network_interfaces_base](documentation/network_interfaces_base.md)
 * [network_interfaces](documentation/network_interfaces.md)
+* [network_interfaces_eni](documentation/network_interfaces_eni.md)
 
 ## Migration
 
