@@ -1,30 +1,30 @@
 # network_interfaces
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/network_interfaces.svg)](https://community.opscode.com/cookbooks/network_interfaces)
-[![Travis status](http://img.shields.io/travis/redguide/network_interfaces.svg)](https://travis-ci.org/redguide/network_interfaces)
 
-## Description
+Provides custom resources for managing `/etc/network/interfaces` on Debian and Ubuntu systems using `ifupdown`.
 
-Manage `/etc/network/interfaces` on Debian/Ubuntu
+## Requirements
 
-## Attributes
+### Platforms
 
-* `node['network_interfaces']['replace_orig']` - Replaces `/etc/network/interfaces` if set to `true`
+* Debian 12+
+* Ubuntu 22.04+
 
-## Usage
+### Chef
 
-example for a bridge with pre-up and pre-down script :
+* Chef Infra Client 15.3+
 
-```ruby
-include_recipe 'network_interfaces'
+### Cookbooks
 
-network_interfaces 'br-test' do
-  target '172.16.88.2'
-  mask '255.255.255.0'
-  bridge [ 'none' ]
-  pre_up 'cat /tmp/iptables-create | iptables-restore -n'
-  post_down 'cat /tmp/iptables-delete | iptables-restore -n'
-end
-```
+* line
+* modules
 
-More documentation later.
+## Resources
+
+* [network_interfaces_base](documentation/network_interfaces_base.md)
+* [network_interfaces](documentation/network_interfaces.md)
+
+## Migration
+
+This cookbook no longer ships root recipes or attributes. See [migration.md](migration.md) for the breaking changes and resource examples.
