@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 name             'network_interfaces'
 maintainer       'Sous Chefs'
 maintainer_email 'help@sous-chefs.org'
 license          'Apache-2.0'
-description      'Installs/Configures network on Ubuntu and Debian'
+description      'Provides resources to manage /etc/network/interfaces on Debian and Ubuntu'
 version          '2.0.8'
-chef_version     '>= 15.0'
+chef_version     '>= 15.3'
 
 issues_url 'https://github.com/sous-chefs/network_interfaces/issues'
 source_url 'https://github.com/sous-chefs/network_interfaces'
 
-supports 'ubuntu', '= 18.04'
-supports 'debian', '>= 9.0'
+supports 'ubuntu', '>= 22.04'
+supports 'debian', '>= 12.0'
 
 depends 'modules', '>= 0.1.2'
 depends 'line', '~> 4.0'

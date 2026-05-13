@@ -1,0 +1,7 @@
+---
+name: default
+title: Network Interfaces Default Tests
+maintainer: Sous Chefs
+license: Apache-2.0
+summary: Verifies network_interfaces resources
+version: 1.0.0

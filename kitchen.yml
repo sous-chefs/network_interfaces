@@ -1,43 +1,33 @@
 ---
 driver:
-  name: dokken
-  privileged: true  # because Docker and SystemD/Upstart
-  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
-  env: [CHEF_LICENSE=accept]
-
-transport:
-  name: dokken
+  name: vagrant
 
 provisioner:
-  name: dokken
+  name: chef_infra
+  deprecations_as_errors: true
+  enforce_idempotency: true
+  multiple_converge: 2
+  chef_license: accept-no-persist
 
 verifier:
   name: inspec
 
+x-run_lists:
+  default: &default_run_list
+    - recipe[test::default]
+
+x-verifiers:
+  default: &default_verifier
+    inspec_tests:
+      - path: test/integration/default
+
 platforms:
-  - name: debian-9
-    driver:
-      image: dokken/debian-9
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-
-  - name: debian-10
-    driver:
-      image: dokken/debian-10
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-
-  - name: ubuntu-18.04
-    driver:
-      image: dokken/ubuntu-18.04
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
+  - name: debian-12
+  - name: debian-13
+  - name: ubuntu-22.04
+  - name: ubuntu-24.04
 
 suites:
   - name: default
-    run_list:
-      - recipe[network_interfaces]
-      - recipe[network_interfaces_test]
+    run_list: *default_run_list
+    verifier: *default_verifier
