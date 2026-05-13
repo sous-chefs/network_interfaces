@@ -5,7 +5,7 @@ maintainer       'Sous Chefs'
 maintainer_email 'help@sous-chefs.org'
 license          'Apache-2.0'
 description      'Provides resources to manage /etc/network/interfaces on Debian and Ubuntu'
-version          '2.0.8'
+version          '3.0.0'
 chef_version     '>= 15.3'
 
 issues_url 'https://github.com/sous-chefs/network_interfaces/issues'

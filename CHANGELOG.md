@@ -1,5 +1,21 @@
 # network_interface
 
+## [3.0.0](https://github.com/sous-chefs/network_interfaces/compare/v2.0.8...v3.0.0) (2026-05-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate network_interfaces to custom resources ([#63](https://github.com/sous-chefs/network_interfaces/issues/63))
+
+### Features
+
+* migrate network_interfaces to custom resources ([#63](https://github.com/sous-chefs/network_interfaces/issues/63)) ([20b50d7](https://github.com/sous-chefs/network_interfaces/commit/20b50d7143f8c42a6688908f406afbcf9c7feaa3))
+
+
+### Bug Fixes
+
+* **ci:** Update workflows to use release pipeline ([#57](https://github.com/sous-chefs/network_interfaces/issues/57)) ([2f01104](https://github.com/sous-chefs/network_interfaces/commit/2f0110498a348c6eacd864a535a260439a836498))
+
 ## [2.0.8](https://github.com/sous-chefs/network_interfaces/compare/2.0.7...v2.0.8) (2025-10-16)
 
 
