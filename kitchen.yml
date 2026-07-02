@@ -3,18 +3,15 @@ driver:
   name: vagrant
 
 provisioner:
-  name: chef_infra
+  name: policyfile_zero
   deprecations_as_errors: true
   enforce_idempotency: true
   multiple_converge: 2
   chef_license: accept-no-persist
+  policyfile: Policyfile.rb
 
 verifier:
   name: inspec
-
-x-run_lists:
-  default: &default_run_list
-    - recipe[test::default]
 
 x-verifiers:
   default: &default_verifier
@@ -29,5 +26,6 @@ platforms:
 
 suites:
   - name: default
-    run_list: *default_run_list
+    provisioner:
+      named_run_list: default
     verifier: *default_verifier
